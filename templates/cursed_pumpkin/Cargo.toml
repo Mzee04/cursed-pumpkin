@@ -1,0 +1,21 @@
+[workspace]
+
+[package]
+name = "cursed_pumpkin"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "The Cursed Pumpkin: a private hot-potato party game on Tari Ootle"
+
+[dependencies]
+tari_template_lib = "0.35"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

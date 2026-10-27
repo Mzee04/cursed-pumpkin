@@ -1,0 +1,14 @@
+[workspace]
+[package]
+name = "test_coin"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+publish = false
+description = "Test-only helper: a public fungible 'bond' coin used in place of TARI in engine tests"
+
+[dependencies]
+tari_template_lib = "0.35"
+
+[lib]
+crate-type = ["cdylib", "lib"]

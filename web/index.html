@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Cursed Pumpkin · a stealth hot potato on Tari Ootle</title>
+  <meta name="description" content="One pumpkin. Passed in secret. Whoever holds it at midnight must prove it. A privacy game on the Tari Ootle testnet." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎃</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Tari Universe bridge. Inside Universe it becomes window.tari; next to the Sapient extension it stays out of the way. -->
+  <script src="https://universe.tari.mw/tari-connector.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="fog" aria-hidden="true"></div>
+  <header class="hero">
+    <div class="moon" aria-hidden="true"></div>
+    <p class="kicker">Tari Ootle · Esmeralda testnet · Spooky Secrets</p>
+    <h1><span class="pumpkin-emoji" aria-hidden="true">🎃</span> <span class="grad">The Cursed Pumpkin</span></h1>
+    <p class="lede">There is exactly <b>one</b> pumpkin. It is passed from hand to hand in secret.
+      The chain sees every pass, but never who gave it or who got it.
+      At midnight, whoever holds it must prove it, and everyone who guessed right shares the pot.</p>
+    <nav class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="replay">Replay the testnet game</button>
+      <button role="tab" aria-selected="false" data-tab="live">Live game</button>
+      <button role="tab" aria-selected="false" data-tab="wallet">Am I haunted?</button>
+      <button role="tab" aria-selected="false" data-tab="how">How it works</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ───────────────────────── replay ───────────────────────── -->
+    <section id="replay" class="panel" role="tabpanel">
+      <div class="banner">📼 <b>Recorded game.</b> This replays real transactions sent on the Esmeralda testnet
+        on <span id="rec-date">…</span>. No wallet needed. Every step links to the explorer.</div>
+
+      <div class="table" id="table"></div>
+
+      <div class="controls">
+        <button id="prev" aria-label="Previous step">◀</button>
+        <input id="scrub" type="range" min="0" value="0" aria-label="Step" />
+        <button id="next" aria-label="Next step">▶</button>
+        <button id="play" class="primary">Play</button>
+      </div>
+      <p class="step-title" id="step-title"></p>
+
+      <div class="split">
+        <article class="view public">
+          <h2>👁️ What the public sees</h2>
+          <p class="hint">Anyone reading the chain or the explorer.</p>
+          <div id="pub"></div>
+        </article>
+        <article class="view private">
+          <h2>🕯️ What the players know</h2>
+          <p class="hint">Off-chain secrets kept on each player's own device.</p>
+          <div id="priv"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ───────────────────────── live ───────────────────────── -->
+    <section id="live" class="panel" role="tabpanel" hidden>
+      <div class="banner">🔴 Read straight from the Esmeralda indexer, right now. Nothing here is from our own server.</div>
+      <div class="cards" id="live-cards"><p>Loading…</p></div>
+      <label class="addr">Game component
+        <input id="game-id" spellcheck="false" />
+      </label>
+      <button id="reload" class="primary">Refresh</button>
+    </section>
+
+    <!-- ───────────────────────── wallet ───────────────────────── -->
+    <section id="wallet" class="panel" role="tabpanel" hidden>
+      <div class="banner">🔐 Uses the <b>Sapient</b> extension (or Tari Universe). Read-only: nothing here spends anything.</div>
+      <ol class="steps">
+        <li><button id="w-connect" class="primary">Connect wallet</button> <span id="w-acct"></span></li>
+        <li><button id="w-scan" disabled>Scan my wallet for the pumpkin</button>
+          <p class="hint">Asks for view access, then scans for UTXOs of this game's PUMPKIN resource.</p>
+          <div id="w-scan-out"></div></li>
+        <li><button id="w-prove" disabled>Prove I hold it (sign a challenge)</button>
+          <p class="hint">The wallet signs a fresh challenge with the pumpkin's one-time key. We then check that the
+            key that signed is the key the chain says guards the live pumpkin.</p>
+          <div id="w-prove-out"></div></li>
+      </ol>
+      <p class="warn">⚠️ Never use “Send privately” on the pumpkin. That moves it outside the game, the game loses
+        track of it, and nobody can prove holding it at midnight. The curse breaks, and the holder forfeits the bond.</p>
+      <p id="w-none" class="hint"></p>
+    </section>
+
+    <!-- ───────────────────────── how ───────────────────────── -->
+    <section id="how" class="panel prose" role="tabpanel" hidden>
+      <h2>The rules</h2>
+      <ol>
+        <li><b>Join.</b> Every player locks a bond (1 tTARI) into the pot with their public player key.</li>
+        <li><b>Summon.</b> The host gives the single PUMPKIN to one player's secret <i>ghost key</i>. It is now a stealth UTXO: a commitment and a one-time key.</li>
+        <li><b>Pass.</b> The holder passes it to someone else's ghost key. The pass is sealed by a brand-new throwaway key, and the fee comes from the game's gas tank, so nothing ties the pass to a player.</li>
+        <li><b>Guess.</b> Anyone can seal a guess on who holds it: a hash of <code>(game, you, suspect, salt)</code>. Nobody can read it yet.</li>
+        <li><b>Midnight.</b> After the midnight epoch, passes stop. The holder spends the pumpkin back into the cauldron to a revealed output under their player key. That proves they hold it.</li>
+        <li><b>Open and claim.</b> Guessers open their hashes. Right guessers split everyone else's bonds. The holder gets their own bond back. If nobody guessed right, the holder takes the pot.</li>
+      </ol>
+      <h2>What stays secret</h2>
+      <ul>
+        <li>Who held the pumpkin after each pass, and the whole chain of hands.</li>
+        <li>Which player sent which pass. The sealing key is a throwaway and gas pays the fee.</li>
+        <li>Who suspects whom, until the guesses are opened.</li>
+      </ul>
+      <h2>What still leaks (honestly)</h2>
+      <ul>
+        <li>The number and timing of passes, and the commitment of the live pumpkin.</li>
+        <li>The host summons publicly, so the first hop is from the host.</li>
+        <li>The final holder, at midnight. That is the point of the reveal.</li>
+        <li>Off-chain metadata: IP addresses, when you're online, and who you message for a ghost address.</li>
+      </ul>
+      <p>Code and threat model: see the README in the repository.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built for the Tari October 2026 build contest · MIT licensed · <a id="tpl-link" href="#">template on the explorer</a></p>
+  </footer>
+</body>
+</html>
