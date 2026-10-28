@@ -92,7 +92,7 @@
       <ol>
         <li><b>Join.</b> Every player locks a bond (1 tTARI) into the pot with their public player key.</li>
         <li><b>Summon.</b> The host gives the single PUMPKIN to one player's secret <i>ghost key</i>. It is now a stealth UTXO: a commitment and a one-time key.</li>
-        <li><b>Pass.</b> The holder passes it to someone else's ghost key. The pass is sealed by a brand-new throwaway key, and the fee comes from the game's gas tank, so nothing ties the pass to a player.</li>
+        <li><b>Pass.</b> The holder passes it to someone else's ghost key. The pass is sealed by a brand-new throwaway key and otherwise signed only by the pumpkin's one-time key, and the fee comes from the game's gas tank, so nothing ties the pass to a player.</li>
         <li><b>Guess.</b> Anyone can seal a guess on who holds it: a hash of <code>(game, you, suspect, salt)</code>. Nobody can read it yet.</li>
         <li><b>Midnight.</b> After the midnight epoch, passes stop. The holder spends the pumpkin back into the cauldron to a revealed output under their player key. That proves they hold it.</li>
         <li><b>Open and claim.</b> Guessers open their hashes. Right guessers split everyone else's bonds. The holder gets their own bond back. If nobody guessed right, the holder takes the pot.</li>
@@ -100,7 +100,7 @@
       <h2>What stays secret</h2>
       <ul>
         <li>Who held the pumpkin after each pass, and the whole chain of hands.</li>
-        <li>Which player sent which pass. The sealing key is a throwaway and gas pays the fee.</li>
+        <li>Which player sent which pass. The sealing key is a throwaway, the only other signature is the pumpkin's one-time key, and gas pays the fee.</li>
         <li>Who suspects whom, until the guesses are opened.</li>
       </ul>
       <h2>What still leaks (honestly)</h2>

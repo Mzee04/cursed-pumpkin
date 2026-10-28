@@ -422,3 +422,21 @@ fn only_the_host_summons_and_only_once() {
     let t = tx(&w, w.game, "summon", args![again.statement, Amount::zero()], &w.players[0].sk.clone());
     expect_err(run(&mut w, t), "The pumpkin has already been summoned");
 }
+
+#[test]
+fn pass_fees_are_capped_and_come_only_from_the_gas_tank() {
+    let mut w = world(2);
+    let mask = w.live_mask.clone();
+    // Above the game's cap (2_000): refused before anything is spent.
+    let (st, _) = pass_statement(&mask);
+    let t = tx(&w, w.game, "pass", args![st, Amount::from(2_001u64)], &mask);
+    expect_err(run(&mut w, t), "Fee above the game's cap");
+    // Within the cap, but the gas tank is empty: the fee cannot be drawn from anywhere else, so the pass fails.
+    let (st, _) = pass_statement(&mask);
+    let t = tx(&w, w.game, "pass", args![st, Amount::from(1_000u64)], &mask);
+    assert!(run(&mut w, t).is_err(), "an empty gas tank must not pay for a pass");
+    // The pumpkin did not move: a zero-fee pass of the same UTXO still works.
+    pass(&mut w).unwrap();
+    let passes: u64 = w.test.call_method(w.game, "passes", args![], vec![]);
+    assert_eq!(passes, 1);
+}

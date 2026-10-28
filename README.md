@@ -8,8 +8,8 @@ Built for the Tari October 2026 build contest, *Spooky Secrets*. All code is new
 Everything runs on the **Esmeralda testnet** with testnet TARI only.
 
 - `templates/cursed_pumpkin`: the Ootle template (Rust → WASM)
-- `tests/game.rs`: 12 engine tests that run the real Ootle engine in-process
-- `client/`: a Python client (ootle-py) that played a real four-player game on Esmeralda
+- `tests/game.rs`: 13 engine tests that run the real Ootle engine in-process
+- `client/`: a Python client (ootle-py) that played a real four-player game on Esmeralda, plus `verify_signers.py`, which checks every tx's signers on-chain
 - `web/`: a static web app with a replay of that game, a live view read from the indexer, and a Sapient "am I haunted?" check
 
 ## How a game goes
@@ -35,13 +35,13 @@ The template checks every rule on-chain:
 
 ## Privacy: what stays secret, and how
 
-1. **Who holds it.** The pumpkin is an Ootle stealth UTXO: a Pedersen commitment, encrypted data that only the receiver's view key can read, and a one-time spend key. Ghost keys never appear on-chain.
+1. **Who holds it.** The pumpkin is an Ootle stealth UTXO: a Pedersen commitment, encrypted data that only the receiver's view key can read, and a one-time spend key. Ghost keys never appear on-chain: the client signs a pass only with the throwaway key and the UTXO's one-time key, and the reveal only with the holder's player key and that one-time key.
 2. **Who passed it.** A normal transaction is sealed by its sender, and the sender also pays the fee. Both would give the passer away. Here:
    - each pass is sealed by a never-funded, single-use key;
    - the stealth input is authorised by the UTXO's own one-time key signature;
    - the whole call runs in the fee phase, paying from the game's shared gas tank (`pass(transfer, fee)`). Any unused fee goes back to the tank.
 
-   So the pass links to no account and no player key.
+   So the pass links to no account and no player key. `client/verify_signers.py` re-checks this for every tx of the recorded game against the indexer. Spent UTXOs are no longer served by the indexer, so it reads each one-time key from the public stealth output in the transaction that created the UTXO, and checks that the pass (or reveal) is signed by exactly that key.
 3. **Who suspects whom.** Guesses are salted hash commitments until midnight.
 
 ## Threat model and what still leaks (honestly)
@@ -54,6 +54,7 @@ The template checks every rule on-chain:
 - **Gas griefing.** Any player can call `pass` with a valid statement, but only the live holder can sign one. The fee is capped per pass. A stalled holder only harms themselves.
 - **Self-sabotage.** A holder can move the pumpkin with a plain wallet "send privately" that bypasses `pass`. The game then loses track of it, nobody can reveal, and the holder forfeits their bond (everyone gets half back).
 - **Small anonymity set.** With 4 players, guessing is meant to be fun, not impossible. Bigger games give more cover.
+- **Client discipline.** The template cannot see who signs a transaction beyond what it checks, so privacy also depends on the client. An earlier version of this client also signed passes with the passer's ghost key (ootle-py signs with every key registered in the wallet), which would let anyone who knows the ghost addresses follow the hands. That was fixed before the game below was played, and the game recorded here was re-run from scratch with the fixed client; `verify_signers.py` shows no ghost key in any of its transactions.
 - **Testnet only.** The code is unaudited. Do not use it with real funds.
 
 ## Run it
@@ -70,7 +71,7 @@ cd web && python3 -m http.server 8000
 ### Template tests
 ```bash
 rustup target add wasm32-unknown-unknown
-cargo test            # 12 tests: full games, cheating attempts, payouts
+cargo test            # 13 tests: full games, cheating attempts, fee cap, payouts
 ```
 
 ### Build the WASM
@@ -85,50 +86,53 @@ E=".venv/bin/python client/esmeralda.py"
 $E keys                     # four throwaway players (stored in secrets/, git-ignored)
 $E tap Vampire 6                # testnet TARI from a community tap (5 tTARI per call)
 $E publish 9000000          # publish the template (needs about 6.4 tTARI in fees)
-$E create 1 2               # midnight in 1 epoch, reveal window of 2 epochs
+$E create 1 1               # midnight in 1 epoch, reveal window of 1 epoch
 $E gas; for n in Vampire Mummy Witch Ghost; do $E join $n; done
-$E summon Mummy; $E pass Witch; $E pass Ghost; $E pass Witch
-$E guess Vampire Witch; $E guess Mummy Witch; $E guess Ghost Mummy; $E guess Witch Vampire
+$E summon Witch; $E pass Vampire; $E pass Ghost; $E pass Mummy
+$E guess Vampire Mummy; $E guess Witch Ghost; $E guess Ghost Mummy; $E guess Mummy Vampire
 # after the midnight epoch:
-$E reveal; for n in Vampire Mummy Ghost Witch; do $E open $n; done
+$E reveal; for n in Vampire Witch Ghost Mummy; do $E open $n; done
 # after the window:
-for n in Witch Vampire Mummy Ghost; do $E claim $n; done
+for n in Mummy Vampire Ghost Witch; do $E claim $n; done
+.venv/bin/python client/verify_signers.py   # who signed what, from the indexer
 ```
 Every step is appended to `web/data/recorded-game.json`, which the replay reads.
 
 ## The recorded Esmeralda game
 
+Played on 28 October 2026 (game created in epoch 12690) with the current client. Witch got the pumpkin, then it went to Vampire, Ghost and finally Mummy, who revealed at midnight. Vampire and Ghost guessed Mummy and split Witch's bond; Mummy got their own bond back. `client/verify_signers.py` passes for all 23 transactions: no ghost key appears anywhere, each pass is sealed by a single-use key and signed only by the spent UTXO's one-time key, and the reveal is signed by Mummy's player key plus that one-time key.
+
 <!-- LINKS -->
 - Template: `template_7660acdce0b99082374f3488654af0ea4cd7e01a2e912b84d53ccce0ead9e1d9` ([publish tx](https://explorer.tari.mw/tx/8991ab11019d61e6bb1664444c0d37617d2477977845d53dcd4d1da9959da477))
-- Game component: `component_7526be50b34ce0de312a6e5f314300a2243719ab1c0eb931dd897a2256c5ac32`
-- PUMPKIN resource: `resource_75b25f3f217738815fbe2c9426e9bb7f13937da9b207dff64ce85b82d4833a07`
-- Midnight epoch 12684, claims from epoch 12686
+- Game component: `component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585`
+- PUMPKIN resource: `resource_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888`
+- Midnight epoch 12691, claims from epoch 12692
 
 | # | Step | Public view | Tx |
 |---|---|---|---|
-| 1 | create | game created; one PUMPKIN minted into the cauldron; midnight at epoch 12684 | [2c99b81e13…](https://explorer.tari.mw/tx/2c99b81e130dc2c3f36701b1d2004d40f2357583f5d5802d1202c4eea0cd68bc) |
-| 2 | add_gas | 2.0 tTARI into the gas tank that pays for anonymous passes | [cdc0a73506…](https://explorer.tari.mw/tx/cdc0a735060599f61f0859cb37f8c17f1172b6b8c527cb0a1855937f7fbbc6b2) |
-| 3 | join Vampire | joined and locked a 1 tTARI bond | [201f0eaaa8…](https://explorer.tari.mw/tx/201f0eaaa8fbd3378e73234505036207b06a28f25e70f10abb92bf919e856ef1) |
-| 4 | join Mummy | joined and locked a 1 tTARI bond | [774fe51d0e…](https://explorer.tari.mw/tx/774fe51d0e5ebfa42de1d3d2263eca7f80fb0fa918f57471fdc7b57918b78677) |
-| 5 | join Witch | joined and locked a 1 tTARI bond | [52c4663b5f…](https://explorer.tari.mw/tx/52c4663b5f743b28f770d6629e9eecac7966f84467f5c3d85d7b6708d53662b7) |
-| 6 | join Ghost | joined and locked a 1 tTARI bond | [c08e6fccc8…](https://explorer.tari.mw/tx/c08e6fccc887eb0bed2d41a2d27da49fb2d60f4d99a094670e77a78e3255d25a) |
-| 7 | summon | the pumpkin left the cauldron into a hidden UTXO | [2de6a50f3d…](https://explorer.tari.mw/tx/2de6a50f3da102b09fd972ef7476dd270850fc6c642f0b9cdd8e62f44e12dba2) |
-| 8 | pass Mummy->Witch | the pumpkin moved: old commitment spent, new hidden owner | [5588bd45d8…](https://explorer.tari.mw/tx/5588bd45d8f8a18557de67bd58387d839b79b4cdda64769a2a6904ec1b3570f0) |
-| 9 | pass Witch->Ghost | the pumpkin moved: old commitment spent, new hidden owner | [7470860d26…](https://explorer.tari.mw/tx/7470860d26b01d5eee6bc9be859412c6193e9c8f549797ee743387e7687c2efa) |
-| 10 | pass Ghost->Witch | the pumpkin moved: old commitment spent, new hidden owner | [9f9135273a…](https://explorer.tari.mw/tx/9f9135273ac46abb35c1909a878d79b69f0f507dce9500019ab334769dfca3bd) |
-| 11 | seal guess Vampire | sealed a guess (a hash; the suspect stays secret) | [8d969309b2…](https://explorer.tari.mw/tx/8d969309b29567ba0a26893d26b74090a13502d285faf71835e9f012d5b7423c) |
-| 12 | seal guess Mummy | sealed a guess (a hash; the suspect stays secret) | [e74eccde3a…](https://explorer.tari.mw/tx/e74eccde3afeaf7a04d59a53e9826839a7d742597eca0cbc4c33340e2aa7acb0) |
-| 13 | seal guess Ghost | sealed a guess (a hash; the suspect stays secret) | [b661e3a177…](https://explorer.tari.mw/tx/b661e3a17716f82733c13bf81f683a713bbad45723d968da6410395a84226343) |
-| 14 | seal guess Witch | sealed a guess (a hash; the suspect stays secret) | [4131f3b31c…](https://explorer.tari.mw/tx/4131f3b31c2baace187e50f359b1c6d1bdfbae87bf0df216b41e0f03ab72fc53) |
-| 15 | open guess Ghost | opened their guess: suspect d604df43dad1… | [b5330f34e1…](https://explorer.tari.mw/tx/b5330f34e132428a1db08452dfff6b23a34a11adde96293f3fb58692710f90bd) |
-| 16 | open guess Witch | opened their guess: suspect 52ba27bb2725… | [006bc38ba3…](https://explorer.tari.mw/tx/006bc38ba3ee9d8b1bc3fa3fff8f48f6ca317498ca2bc8cfc3ca53d7b5cfad9b) |
-| 17 | reveal Witch | midnight: the holder proved ownership by spending the live pumpkin back into the cauldron | [88f8bd0625…](https://explorer.tari.mw/tx/88f8bd0625e40b7cc8572afc77c69f191a8e064f7e9ea9a791a01532062ac89b) |
-| 18 | open guess Vampire | opened their guess: suspect b8e4845b14ec… | [b8311c9d73…](https://explorer.tari.mw/tx/b8311c9d73e4303a61f5944690e6019a59c8171a04d6cd5e9e61baf75aae0414) |
-| 19 | open guess Mummy | opened their guess: suspect b8e4845b14ec… | [84dda6cbc6…](https://explorer.tari.mw/tx/84dda6cbc68cf6f6d15f98235bb81df90aa96e7daf5781a4cdb823da2c39c901) |
-| 20 | claim Witch | claimed their share of the pot | [d70bbaa8ef…](https://explorer.tari.mw/tx/d70bbaa8efa7ab2078b6b219105d5a8d85a608bc9545922e24311a58baf2b07a) |
-| 21 | claim Vampire | claimed their share of the pot | [73e6a9929c…](https://explorer.tari.mw/tx/73e6a9929c4a864002886988fd4be375bae4e4b83b2be5ff1e572d972055d810) |
-| 22 | claim Mummy | claimed their share of the pot | [73bad3d79b…](https://explorer.tari.mw/tx/73bad3d79b6133d501b1c0a531ca8940dc8eb9b9f35c1e01b095b57282b915cf) |
-| 23 | claim Ghost | claimed their share of the pot | [08656a84a5…](https://explorer.tari.mw/tx/08656a84a595b8bbb12408a0031d11dd2415a300f7778243aa45f4e74d53508a) |
+| 1 | create | game created; one PUMPKIN minted into the cauldron; midnight at epoch 12691 | [933f43b0e4…](https://explorer.tari.mw/tx/933f43b0e43fbb8b10c0505dbf55f25ea3d453611bb2ea39bdfc88292cb9e20e) |
+| 2 | add_gas | 2.0 tTARI into the gas tank that pays for anonymous passes | [02d9628592…](https://explorer.tari.mw/tx/02d96285929907ca95973a04f1b2c90800d12642fbfa86d429783786dd7be661) |
+| 3 | join Vampire | joined and locked a 1 tTARI bond | [9c10ddeca0…](https://explorer.tari.mw/tx/9c10ddeca028f215a4e3169aac8c6e5f3d7ffe71338c7ac166af09e3ee659c11) |
+| 4 | join Mummy | joined and locked a 1 tTARI bond | [1cb418273b…](https://explorer.tari.mw/tx/1cb418273bee6d3bf7fd0df47b5dcff66b14a2532dd7c1c5574f31f0cbc75ba2) |
+| 5 | join Witch | joined and locked a 1 tTARI bond | [3cf405d0c2…](https://explorer.tari.mw/tx/3cf405d0c27ddcf2d7b4d4e0aebfbadc752f08d11c54057f99e1800675c85cd6) |
+| 6 | join Ghost | joined and locked a 1 tTARI bond | [03042d9511…](https://explorer.tari.mw/tx/03042d95116d7cac65d35c6184dd70210842db5825d1ae71af8c31adfd0ba19a) |
+| 7 | summon | the pumpkin left the cauldron into a hidden UTXO | [645d9b1b07…](https://explorer.tari.mw/tx/645d9b1b07048fc967ad6c27b53ce3b982210e48d513d8fa960867722c1da00d) |
+| 8 | pass Witch->Vampire | the pumpkin moved: old commitment spent, new hidden owner | [b4f25702fb…](https://explorer.tari.mw/tx/b4f25702fbf0295b6937338a1560ebc8304017c30c0ddb0194881660882656db) |
+| 9 | pass Vampire->Ghost | the pumpkin moved: old commitment spent, new hidden owner | [cf55b1ba0c…](https://explorer.tari.mw/tx/cf55b1ba0c8fa9e33aac036638df68c9206e27c53d24aa23e02819cb68598f7d) |
+| 10 | pass Ghost->Mummy | the pumpkin moved: old commitment spent, new hidden owner | [99ec772abd…](https://explorer.tari.mw/tx/99ec772abd53c24ae1dce452add64be842039643386825fda43042dc6d8f955c) |
+| 11 | seal guess Vampire | sealed a guess (a hash; the suspect stays secret) | [81cd4284e2…](https://explorer.tari.mw/tx/81cd4284e2f5b04080811b099b0a91cf3eca423a40972e2c55e68ff6ef08c5a6) |
+| 12 | seal guess Witch | sealed a guess (a hash; the suspect stays secret) | [40fa0460cf…](https://explorer.tari.mw/tx/40fa0460cfcbe77685727c32d4c77c4518cfbaaca85cb271c389415558a59b9e) |
+| 13 | seal guess Ghost | sealed a guess (a hash; the suspect stays secret) | [6931cd3b84…](https://explorer.tari.mw/tx/6931cd3b84380cb3485ffaf7960ad953490c3b31a825739f5471b97710c67f48) |
+| 14 | seal guess Mummy | sealed a guess (a hash; the suspect stays secret) | [826ea23ef9…](https://explorer.tari.mw/tx/826ea23ef9013f1ab6b36820c0a017177d1e83623e4d29d6a2ae29802c357f6b) |
+| 15 | reveal Mummy | midnight: the holder proved ownership by spending the live pumpkin back into the cauldron | [8b525b81c4…](https://explorer.tari.mw/tx/8b525b81c47879829ce8706ed255909601ff79e71c22977fdc3726591de7c295) |
+| 16 | open guess Vampire | opened their guess: suspect d604df43dad1… | [ad3c99bbdb…](https://explorer.tari.mw/tx/ad3c99bbdbf4bd5542aad8c607343feda3850bd76ac1849aa2584b67f57450e2) |
+| 17 | open guess Witch | opened their guess: suspect 8add6cc1d6c6… | [fb1ab41f19…](https://explorer.tari.mw/tx/fb1ab41f19860c959225d31812b65716aefb61456f2229e2cd6cdc70015b3cff) |
+| 18 | open guess Ghost | opened their guess: suspect d604df43dad1… | [46a0b55ff4…](https://explorer.tari.mw/tx/46a0b55ff4ad1685ef04b7505e5e42c215fb8c2f7d760c8cd02173e9b7d5657d) |
+| 19 | open guess Mummy | opened their guess: suspect 52ba27bb2725… | [edaf860eb9…](https://explorer.tari.mw/tx/edaf860eb92c63666daebf57ea0d26ccde36fc0a85d6763957eb925520caf28d) |
+| 20 | claim Mummy | claimed their own bond back (the holder) | [e7defb6db1…](https://explorer.tari.mw/tx/e7defb6db1038631594ca9643bae500a71b74fdb3a72af776768e4070a1653bd) |
+| 21 | claim Vampire | claimed their share of the pot | [0d9559911f…](https://explorer.tari.mw/tx/0d9559911f4eb4d6eb6f6117b9265909f42c086f6385eca4827a8c8c55b07d9f) |
+| 22 | claim Ghost | claimed their share of the pot | [2dc1270790…](https://explorer.tari.mw/tx/2dc127079081241f14bc915cf6064f497d5df758e202c4bef5cd278fba1531c6) |
+| 23 | claim Witch | claimed nothing back (bond forfeited to the right guessers); paid only the fee | [1f350436e4…](https://explorer.tari.mw/tx/1f350436e47aa23a716174f38c2937c071b135fe21d0dcd88010b6e8ce2ef38e) |
 <!-- /LINKS -->
 
 ## License

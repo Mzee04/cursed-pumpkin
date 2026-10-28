@@ -37,7 +37,7 @@ function storyFor(step, i, all) {
     case "seal_guess": return [`${pv.player} seals a guess`, `${pv.player} secretly suspects ${pv.suspect}.`];
     case "reveal": return ["🕛 Midnight: the holder unmasks", `${pv.holder} proves they hold the pumpkin and returns it to the cauldron.`];
     case "open_guess": return [`${pv.player} opens their guess`, `${pv.player} said ${pv.suspect}.`];
-    case "claim": return [`${pv.player} claims`, `${pv.player} receives ${tari(step.public.balance_change ?? 0)} (net of fee).`];
+    case "claim": { const bc = step.public.balance_change ?? 0; return [`${pv.player} claims`, bc >= 0 ? `${pv.player} receives ${tari(bc)} (net of fee).` : `${pv.player} gets nothing back (bond forfeited) and pays ${tari(-bc)} in fees.`]; }
     default: return [step.label, ""];
   }
 }
@@ -224,11 +224,17 @@ $("#w-scan").onclick = async () => {
   try {
     const g = window.LIVE || decodeGame(await substate($("#game-id").value.trim()));
     window.LIVE = g;
-    const view = wallet.requestViewAccess ? await wallet.requestViewAccess() : { granted: true };
+    const resourceAddress = `resource_${g.pumpkin}`;
+    const view = await wallet.request({ method: "tari_requestViewAccess" }).catch(() => ({ granted: true }));
     if (view && view.granted === false) { out.innerHTML = `<span class="bad">View access declined.</span>`; return; }
-    const res = await wallet.request({ method: "tari_scanForResourceUtxos", params: { resourceAddress: `resource_${g.pumpkin}`, maxPages: 10 } });
-    const list = (res && (res.utxos || res.outputs || res.found || res)) || [];
-    found = (Array.isArray(list) ? list : []).map((u) => ({
+    // Outputs the wallet already knows are not returned by a scan, so ask for them first, then scan for new ones.
+    const known = await wallet.request({ method: "tari_getShieldedOutputs", params: { resourceAddress } }).catch(() => []);
+    const res = await wallet.request({ method: "tari_scanForResourceUtxos", params: { resourceAddress, maxPages: 10 } });
+    const scanned = (res && (res.found || res.utxos || res.outputs || res)) || [];
+    const seen = new Set();
+    const list = [...(Array.isArray(known) ? known : []), ...(Array.isArray(scanned) ? scanned : [])]
+      .filter((u) => { const c = String(u.commitment || u.substateId || u.substate_id || ""); if (seen.has(c)) return false; seen.add(c); return true; });
+    found = list.map((u) => ({
       commitment: String(u.commitment || u.substateId || u.substate_id || "").replace(/^utxo_[0-9a-f]+_/, ""),
       substateId: u.substateId || u.substate_id || null,
       raw: u,
@@ -255,14 +261,14 @@ $("#w-prove").onclick = async () => {
   const challenge = `cursed-pumpkin:${$("#game-id").value.trim()}:${g.live}:${nonce}`;
   out.textContent = "Waiting for the wallet…";
   try {
-    const sig = await wallet.signOwnershipChallenge(`resource_${g.pumpkin}`, substateId, challenge);
+    const sig = await wallet.request({ method: "tari_signOwnershipChallenge", params: { resourceAddress: `resource_${g.pumpkin}`, substateId, challenge } });
     const onChain = (await substate(substateId)).state.up.substate.Utxo.output.auth.Key;
     const match = sig.publicKey && onChain && sig.publicKey.toLowerCase() === onChain.toLowerCase();
     out.innerHTML = `<dl class="kv"><dt>Challenge</dt><dd><code>${esc(challenge)}</code></dd>
       <dt>Signed by</dt><dd><code>${esc(short(sig.publicKey, 12))}</code></dd>
       <dt>Chain says</dt><dd><code>${esc(short(onChain, 12))}</code></dd>
-      <dt>Result</dt><dd class="${match ? "ok" : "bad"}">${match ? "Key matches the live pumpkin's one-time key ✔" : "Key does not match ✘"}</dd></dl>
-      <p class="hint">Share the challenge with the signature (<code>${esc(short(sig.signature, 10))}</code>) and anyone can check it. The on-chain midnight reveal is the binding proof.</p>`;
+      <dt>Result</dt><dd class="${match ? "ok" : "bad"}">${match ? "The wallet's key matches the live pumpkin's one-time key ✔" : "Key does not match ✘"}</dd></dl>
+      <p class="hint">Share the challenge with the signature (<code>${esc(short(sig.signature, 10))}</code>) and anyone can verify the Schnorr signature against that key (this page only compares the keys). The on-chain midnight reveal is the binding proof.</p>`;
   } catch (e) {
     out.innerHTML = `<span class="bad">${esc(e.message || e)}</span>`;
   }

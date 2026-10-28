@@ -10,8 +10,6 @@ Nothing here touches mainnet: the network is pinned to Esmeralda and every key i
 from __future__ import annotations
 
 import hashlib
-import json
-import os
 import time
 from dataclasses import dataclass
 from typing import Any
@@ -190,8 +188,6 @@ def send(
 ) -> Sent:
     """Resolve inputs, sign (stealth spend keys first, then the seal key), dry-run, send and wait."""
     unsigned = client.resolver.resolve(b.build_unsigned(), wants)
-    if os.environ.get("PUMPKIN_DEBUG"):
-        print(json.dumps(json.loads(unsigned.json), indent=1)[:4000])
     seal_pk = client.wallet.default_address.owner_pk
     auths = []
     for key, nonce in stealth_signers or []:

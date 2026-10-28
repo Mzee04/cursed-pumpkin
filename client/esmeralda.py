@@ -26,7 +26,6 @@ STATE = ROOT / "secrets" / "esmeralda.json"
 RECORD = ROOT / "web" / "data" / "recorded-game.json"
 WASM = ROOT / "templates" / "cursed_pumpkin" / "target" / "wasm32-unknown-unknown" / "release" / "cursed_pumpkin.wasm"
 NAMES = ["Vampire", "Mummy", "Witch", "Ghost"]
-# Old CLI names still accepted.
 FEE = 100_000
 BOND = 1_000_000  # 1 tTARI
 PASS_FEE = 60_000
@@ -255,7 +254,10 @@ def cmd_pass(to: str, fee: str = str(PASS_FEE)) -> None:
     nxt = key(s, to, "ghost")
     throwaway = p.new_key()  # seals the transaction; never used again, never funded
     live = bytes.fromhex(s["live"])
-    with p.connect(throwaway, ghost) as c:
+    # Only the throwaway key goes in the wallet. ootle-py's wallet.seal adds a signature from
+    # every registered signer, so registering the ghost key would publish it on every pass.
+    # The stealth input is authorised by the UTXO's one-time key (stealth_signers) instead.
+    with p.connect(throwaway) as c:
         st, signers, outs = p.build_statement(c, s["pumpkin"], [(ghost, live)], 0, [nxt], None)
         b = p.builder(c)
         arg = p.lit(p.statement_cbor(s["pumpkin"], st))
@@ -294,7 +296,7 @@ def cmd_reveal() -> None:
     k = key(s, holder)
     ghost = key(s, holder, "ghost")
     live = bytes.fromhex(s["live"])
-    with p.connect(k, ghost) as c:
+    with p.connect(k) as c:  # do not register the ghost key: it would be signed into the tx
         st, signers, outs = p.build_statement(c, s["pumpkin"], [(ghost, live)], 0, [], (1, p.pk(k)))
         b = p.builder(c)
         wants = fee_from(b, k)
