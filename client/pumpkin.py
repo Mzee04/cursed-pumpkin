@@ -47,7 +47,9 @@ from ootle._types.want_input import WantInput
 NETWORK = Network.ESMERALDA
 INDEXER = "https://ootle-indexer-a.tari.com"
 EXPLORER = "https://explorer.tari.mw"
-TAP = "component_9c90f61b7665a6cff488d9f95f6a976c45139e49bda5a866fa9e6cb1b92849c7"
+# The public Esmeralda faucet (genesis). One claim per key, 1,000 tTARI.
+# The old community tap was wiped in the November 2026 reset.
+FAUCET = "component_0102030000000000000000000000000000000000000000000000000000000000"
 TARI = ResourceAddress(TARI_TOKEN)
 GUESS_DOMAIN = b"cursed-pumpkin/guess/v1"
 ZERO_MASK = Mask(b"\x00" * 32)
@@ -168,7 +170,8 @@ def connect(seal: OotleSecretKey, *others: OotleSecretKey) -> OotleClient:
     wallet = OotleWallet(default=LocalSigner(seal))
     for o in others:
         wallet.register(LocalSigner(o))
-    return OotleClient.connect(INDEXER, wallet=wallet)
+    # Esmeralda finality is often longer than the library's 60s default.
+    return OotleClient.connect(INDEXER, wallet=wallet, transaction_timeout=180)
 
 
 def builder(client: OotleClient, epochs: int = 20) -> TransactionBuilder:

@@ -1,2 +1,2 @@
-ootle-py==0.3.2
+ootle-py==0.5.0
 cbor2>=5.6

@@ -145,7 +145,11 @@ const hex = (v) => (v && v["@cbor"] === "bytes" ? v.hex : v && v["@cbor"] === "t
 async function substate(id) {
   const r = await fetch(`${INDEXER}/substates/${id}`);
   if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
-  return r.json();
+  const body = await r.json();
+  const up = body.state && body.state.up;
+  // Since Ootle 0.48 the indexer returns the substate value as base64 CBOR.
+  if (up && typeof up.substate === "string") up.substate = await decodeSubstateB64(up.substate);
+  return body;
 }
 async function vaultBalance(vid) {
   try {

@@ -8,7 +8,7 @@ publish = false
 description = "Test-only helper: a public fungible 'bond' coin used in place of TARI in engine tests"
 
 [dependencies]
-tari_template_lib = "0.35"
+tari_template_lib = "0.38"
 
 [lib]
 crate-type = ["cdylib", "lib"]
