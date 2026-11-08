@@ -13,6 +13,6 @@ description = "Engine tests for The Cursed Pumpkin template, run against the rea
 [dependencies]
 
 [dev-dependencies]
-tari_template_test_tooling = "0.47"
-tari_template_lib = "0.35"
+tari_template_test_tooling = "0.50.1"
+tari_template_lib = "0.38"
 sha2 = "0.10"

@@ -17,9 +17,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 import pumpkin as p  # noqa: E402
 from ootle import ComponentAddress, SubstateId, TemplateBlob  # noqa: E402
-from ootle._types.instructions import InstructionArgWorkspace, WorkspaceOffsetId  # noqa: E402
+from ootle._types.instructions import InstructionArgWorkspace  # noqa: E402
 from ootle._types.want_input import WantInput  # noqa: E402
-from ootle._types._instruction_variants import PayFeeFromBucket  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE = ROOT / "secrets" / "esmeralda.json"
@@ -66,42 +65,59 @@ def cmd_keys() -> None:
     s = load()
     if s.get("players"):
         print("keys exist")
+        record_players(s)
         return
     s["players"] = {n: {"player": p.key_to_json(p.new_key()), "ghost": p.key_to_json(p.new_key())} for n in NAMES}
     save(s)
+    # A new key set starts a new recorded game. The previous recording is the last published one in git.
+    RECORD.parent.mkdir(parents=True, exist_ok=True)
+    RECORD.write_text(json.dumps({"network": "esmeralda", "steps": []}, indent=2))
+    record_players(s)
     for n in NAMES:
         print(n, p.account_of(key(s, n)))
 
 
-def cmd_tap(name: str, times: str = "1") -> None:
+# The public faucet dispenses 1_000 tTARI once per key and creates the account.
+# A generous cap: the claim itself costs a few thousand microTARI.
+FAUCET_FEE = 100_000
+
+
+def record_players(s: dict) -> None:
+    """Public player keys only. Secrets stay in secrets/esmeralda.json."""
+    meta("players", {
+        n: {
+            "player_key": p.pk(key(s, n)).hex(),
+            "ghost_key": p.pk(key(s, n, "ghost")).hex(),
+            "account": p.account_of(key(s, n)),
+        }
+        for n in NAMES
+    })
+
+
+def cmd_tap(name: str, _times: str = "1") -> None:
+    """Claim the public Esmeralda faucet once. Further claims for the same key are refused on-chain."""
     s = load()
     k = key(s, name)
     acc = p.account_of(k)
     with p.connect(k) as c:
-        for _ in range(int(times)):
-            exists = c.fetch_substate(SubstateId(opaque=acc)) is not None
-            b = p.builder(c)
-
-            def fee(f):
-                f.call_method(p.TAP, "take").put_last_instruction_output_on_workspace("tap")
-                fid = f.alloc_workspace("fee")
-                f.add_instruction(p.take_from_bucket(0, FEE, fid))
-                f.add_instruction(PayFeeFromBucket(bucket=WorkspaceOffsetId(fid)))
-                if exists:
-                    f.call_method(acc, "deposit", (InstructionArgWorkspace(WorkspaceOffsetId(0)),))
-                else:
-                    f.create_account(p.pk(k), "tap")
-                return f
-
-            b.with_fee_instructions_builder(fee)
-            wants = {
-                WantInput.SpecificSubstate(id=SubstateId(opaque=p.TAP)),
-                WantInput.VaultForResource(component=ComponentAddress(p.TAP), resource=p.TARI),
-            }
-            if exists:
-                wants |= {WantInput.SpecificSubstate(id=SubstateId(opaque=acc)),
-                          WantInput.VaultForResource(component=ComponentAddress(acc), resource=p.TARI, required=False)}
-            p.send(c, f"tap {name}", b, wants)
+        if c.fetch_substate(SubstateId(opaque=acc)) is not None:
+            print(name, "already has an account", acc)
+            print(name, "balance", c.get_account_balance(ComponentAddress(acc), p.TARI))
+            return
+        unsigned = c.faucet().take_funds().pay_fee(FAUCET_FEE).prepare()
+        dry = c.send_dry_run(unsigned)
+        print("dry", dry.outcome, "estimated fee", dry.estimated_fee)
+        if dry.outcome is None or not dry.outcome.is_commit:
+            raise SystemExit(
+                f"tap {name}: dry run rejected: {dry.outcome}\n"
+                "The genesis faucet (component_010203…) has been empty since the November 2026 reset. "
+                "Claim from https://testnet-faucet.taritracker.com/ (public payout) to this account, then continue."
+            )
+        pend = c.send_transaction(c.seal_transaction(unsigned))
+        out = pend.watch()
+        print(out.kind, pend.tx_id, f"{p.EXPLORER}/tx/{pend.tx_id}")
+        if not out.is_commit:
+            raise SystemExit(f"tap {name}: {out}")
         print(name, "balance", c.get_account_balance(ComponentAddress(acc), p.TARI))
 
 

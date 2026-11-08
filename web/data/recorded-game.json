@@ -4,18 +4,18 @@
     {
       "step": "create",
       "label": "create",
-      "tx_id": "933f43b0e43fbb8b10c0505dbf55f25ea3d453611bb2ea39bdfc88292cb9e20e",
-      "link": "https://explorer.tari.mw/tx/933f43b0e43fbb8b10c0505dbf55f25ea3d453611bb2ea39bdfc88292cb9e20e",
-      "epoch": 12690,
+      "tx_id": "af135c385bf3acbb70a4125efba80b46f194a790a86f847247d62a8d1ce946bb",
+      "link": "https://explorer.tari.mw/tx/af135c385bf3acbb70a4125efba80b46f194a790a86f847247d62a8d1ce946bb",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 4641,
+      "fee": 11041,
       "upped": [
-        "vault_036cad7b1cd2ee8fe0bd8ffb9b5095ca587f9642df142069f8041a56c2627498",
-        "resource_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "vault_4d4fa246d9e1b95781cb0ef550a346044bae32ad37355978e503b198be883824",
-        "vault_4d0f543f36e500dc4fe68c00a7d2487a943412d063a45926776c2f97d4cff3d9",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_c4ee4377542bf92a1c95b75f3b3c3ef1439858a387aac9cdb9da6ca42c71d90f",
+        "resource_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "vault_f05a033074c01422a4642a2d2fc9fd5e224b621afb07ca073fc839bd47113c10",
+        "vault_f02833f6ca3885c94dc62a0e9e0d17724a15870881f9bbe025b7bb81ea0271b1",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -32,10 +32,10 @@
           "topic": "CursedPumpkin.CursedPumpkin.Created",
           "payload": {
             "bond": "1000000",
-            "midnight_epoch": "12691",
-            "name": "All Hallows Esmeralda II",
-            "pumpkin": "resource_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888",
-            "reveal_until_epoch": "12692"
+            "midnight_epoch": "12943",
+            "name": "Esmeralda Reset Night",
+            "pumpkin": "resource_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69",
+            "reveal_until_epoch": "12944"
           }
         },
         {
@@ -50,10 +50,10 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:51:52Z",
+      "time_utc": "2026-11-07T23:10:36Z",
       "public": {
         "who": "host (public key visible)",
-        "what": "game created; one PUMPKIN minted into the cauldron; midnight at epoch 12691"
+        "what": "game created; one PUMPKIN minted into the cauldron; midnight at epoch 12943"
       },
       "private": {
         "host": "Vampire"
@@ -62,14 +62,14 @@
     {
       "step": "add_gas",
       "label": "add_gas",
-      "tx_id": "02d96285929907ca95973a04f1b2c90800d12642fbfa86d429783786dd7be661",
-      "link": "https://explorer.tari.mw/tx/02d96285929907ca95973a04f1b2c90800d12642fbfa86d429783786dd7be661",
-      "epoch": 12690,
+      "tx_id": "a0c6e808e1c401c814eb816608240c5da451bd6e6c34f3ff65811f16c63ed197",
+      "link": "https://explorer.tari.mw/tx/a0c6e808e1c401c814eb816608240c5da451bd6e6c34f3ff65811f16c63ed197",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 3080,
+      "fee": 3349,
       "upped": [
-        "vault_036cad7b1cd2ee8fe0bd8ffb9b5095ca587f9642df142069f8041a56c2627498",
-        "vault_4d4fa246d9e1b95781cb0ef550a346044bae32ad37355978e503b198be883824"
+        "vault_c4ee4377542bf92a1c95b75f3b3c3ef1439858a387aac9cdb9da6ca42c71d90f",
+        "vault_f05a033074c01422a4642a2d2fc9fd5e224b621afb07ca073fc839bd47113c10"
       ],
       "events": [
         {
@@ -92,7 +92,7 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:51:58Z",
+      "time_utc": "2026-11-07T23:10:42Z",
       "public": {
         "who": "host",
         "what": "2.0 tTARI into the gas tank that pays for anonymous passes"
@@ -102,15 +102,15 @@
     {
       "step": "join",
       "label": "join Vampire",
-      "tx_id": "9c10ddeca028f215a4e3169aac8c6e5f3d7ffe71338c7ac166af09e3ee659c11",
-      "link": "https://explorer.tari.mw/tx/9c10ddeca028f215a4e3169aac8c6e5f3d7ffe71338c7ac166af09e3ee659c11",
-      "epoch": 12690,
+      "tx_id": "4d82cd14ff668f90a0037600dfb5364c1a51eb3dd7ddf26e8c0cdc6cd5def50c",
+      "link": "https://explorer.tari.mw/tx/4d82cd14ff668f90a0037600dfb5364c1a51eb3dd7ddf26e8c0cdc6cd5def50c",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 4033,
+      "fee": 4302,
       "upped": [
-        "vault_036cad7b1cd2ee8fe0bd8ffb9b5095ca587f9642df142069f8041a56c2627498",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_c4ee4377542bf92a1c95b75f3b3c3ef1439858a387aac9cdb9da6ca42c71d90f",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -134,7 +134,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.Joined",
           "payload": {
-            "player": "52ba27bb27259fdb942d77c0ad779a46a72b2d684a62ea32546c0244c5179e53",
+            "player": "706d47c8204c505d1abaff03110590edf29b04e3f12314237a4387272c0ebe7d",
             "players": "1"
           }
         },
@@ -144,9 +144,9 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:01Z",
+      "time_utc": "2026-11-07T23:10:54Z",
       "public": {
-        "who": "player key 52ba27bb2725\u2026",
+        "who": "player key 706d47c8204c\u2026",
         "what": "joined and locked a 1 tTARI bond"
       },
       "private": {
@@ -156,15 +156,15 @@
     {
       "step": "join",
       "label": "join Mummy",
-      "tx_id": "1cb418273bee6d3bf7fd0df47b5dcff66b14a2532dd7c1c5574f31f0cbc75ba2",
-      "link": "https://explorer.tari.mw/tx/1cb418273bee6d3bf7fd0df47b5dcff66b14a2532dd7c1c5574f31f0cbc75ba2",
-      "epoch": 12690,
+      "tx_id": "7812ce416518c85aab644276a5171e13d71ce52eb145b2bf470216d943d3d215",
+      "link": "https://explorer.tari.mw/tx/7812ce416518c85aab644276a5171e13d71ce52eb145b2bf470216d943d3d215",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 4088,
+      "fee": 4356,
       "upped": [
-        "vault_fdcd72b05cc0b7830741445673fd16e81be1fe1c7fde6fe705196ec40c2cb88b",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_095cd4692b50f12dd70e69ad07118a43cb520907b1cd46a1414f8958f206a76f",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -188,7 +188,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.Joined",
           "payload": {
-            "player": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e",
+            "player": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641",
             "players": "2"
           }
         },
@@ -198,9 +198,9 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:04Z",
+      "time_utc": "2026-11-07T23:11:06Z",
       "public": {
-        "who": "player key d604df43dad1\u2026",
+        "who": "player key 94170f8a1e89\u2026",
         "what": "joined and locked a 1 tTARI bond"
       },
       "private": {
@@ -210,15 +210,15 @@
     {
       "step": "join",
       "label": "join Witch",
-      "tx_id": "3cf405d0c27ddcf2d7b4d4e0aebfbadc752f08d11c54057f99e1800675c85cd6",
-      "link": "https://explorer.tari.mw/tx/3cf405d0c27ddcf2d7b4d4e0aebfbadc752f08d11c54057f99e1800675c85cd6",
-      "epoch": 12690,
+      "tx_id": "fa68d1f4cd22523c75801576329249bce27fd24dde25772d2bed65aedd7ed30b",
+      "link": "https://explorer.tari.mw/tx/fa68d1f4cd22523c75801576329249bce27fd24dde25772d2bed65aedd7ed30b",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 4141,
+      "fee": 4412,
       "upped": [
-        "vault_d3ad20f616d32bcd6e9d6edc899106f2ac598433290dfddce07935903763084f",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_3fb835b1df861a5ef77ed9b25bfb7e53c9b39b9f9166204968049b67f4b27e41",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -242,7 +242,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.Joined",
           "payload": {
-            "player": "b8e4845b14ec25eb39de204d91d725c50b3fd4689747b412e72eb794add13829",
+            "player": "fab31096806cc429551ac734eb27bde37e8d8bc7930ab8090593520857ab182c",
             "players": "3"
           }
         },
@@ -252,9 +252,9 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:08Z",
+      "time_utc": "2026-11-07T23:11:18Z",
       "public": {
-        "who": "player key b8e4845b14ec\u2026",
+        "who": "player key fab31096806c\u2026",
         "what": "joined and locked a 1 tTARI bond"
       },
       "private": {
@@ -264,15 +264,15 @@
     {
       "step": "join",
       "label": "join Ghost",
-      "tx_id": "03042d95116d7cac65d35c6184dd70210842db5825d1ae71af8c31adfd0ba19a",
-      "link": "https://explorer.tari.mw/tx/03042d95116d7cac65d35c6184dd70210842db5825d1ae71af8c31adfd0ba19a",
-      "epoch": 12690,
+      "tx_id": "c40815b83398f8c0895ca8e714d03b5b9207480faebb37317601834d0a6c9a89",
+      "link": "https://explorer.tari.mw/tx/c40815b83398f8c0895ca8e714d03b5b9207480faebb37317601834d0a6c9a89",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 4196,
+      "fee": 4468,
       "upped": [
-        "vault_7fe58a9292f848b722c763a509fe40af48b2ce9c1c41a40d507c7677f6e264f2",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_d97417b2de4b8d200a1ae9663dc870dbc3c0c36a4ce09c99c7588d7a57c54b65",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -296,7 +296,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.Joined",
           "payload": {
-            "player": "8add6cc1d6c6cdd0721d1bb58ec4fd4a8a0498c026aaccc7b7de0734d1b56460",
+            "player": "1425eb2ee318f5b927734749a803113dc220b8a6ac4feaa7deea063fa0752b69",
             "players": "4"
           }
         },
@@ -306,9 +306,9 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:11Z",
+      "time_utc": "2026-11-07T23:11:30Z",
       "public": {
-        "who": "player key 8add6cc1d6c6\u2026",
+        "who": "player key 1425eb2ee318\u2026",
         "what": "joined and locked a 1 tTARI bond"
       },
       "private": {
@@ -318,16 +318,16 @@
     {
       "step": "summon",
       "label": "summon",
-      "tx_id": "645d9b1b07048fc967ad6c27b53ce3b982210e48d513d8fa960867722c1da00d",
-      "link": "https://explorer.tari.mw/tx/645d9b1b07048fc967ad6c27b53ce3b982210e48d513d8fa960867722c1da00d",
-      "epoch": 12690,
+      "tx_id": "23b71c95fd247db754601988dcf82bf182b80589da4b0f0c008479739af00017",
+      "link": "https://explorer.tari.mw/tx/23b71c95fd247db754601988dcf82bf182b80589da4b0f0c008479739af00017",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 12437,
+      "fee": 12973,
       "upped": [
-        "vault_036cad7b1cd2ee8fe0bd8ffb9b5095ca587f9642df142069f8041a56c2627498",
-        "vault_4d0f543f36e500dc4fe68c00a7d2487a943412d063a45926776c2f97d4cff3d9",
-        "utxo_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888_7c861a7bf7bf89df5b570cb3fe48aaab20f7079fb903f3d9f8bb273ff4367839",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_c4ee4377542bf92a1c95b75f3b3c3ef1439858a387aac9cdb9da6ca42c71d90f",
+        "vault_f02833f6ca3885c94dc62a0e9e0d17724a15870881f9bbe025b7bb81ea0271b1",
+        "utxo_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69_86107e64ba18a0e522274768d13921087d8ab38cac4ece6e10e1bd074196877f",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -345,7 +345,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.Summoned",
           "payload": {
-            "commitment": "7c861a7bf7bf89df5b570cb3fe48aaab20f7079fb903f3d9f8bb273ff4367839"
+            "commitment": "86107e64ba18a0e522274768d13921087d8ab38cac4ece6e10e1bd074196877f"
           }
         },
         {
@@ -354,11 +354,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:14Z",
+      "time_utc": "2026-11-07T23:11:42Z",
       "public": {
         "who": "host",
         "what": "the pumpkin left the cauldron into a hidden UTXO",
-        "commitment": "7c861a7bf7bf89df5b570cb3fe48aaab20f7079fb903f3d9f8bb273ff4367839"
+        "commitment": "86107e64ba18a0e522274768d13921087d8ab38cac4ece6e10e1bd074196877f"
       },
       "private": {
         "to": "Witch"
@@ -367,15 +367,15 @@
     {
       "step": "pass",
       "label": "pass Witch->Vampire",
-      "tx_id": "b4f25702fbf0295b6937338a1560ebc8304017c30c0ddb0194881660882656db",
-      "link": "https://explorer.tari.mw/tx/b4f25702fbf0295b6937338a1560ebc8304017c30c0ddb0194881660882656db",
-      "epoch": 12690,
+      "tx_id": "f9f3d6027b580ed193dfae7106957cdd0d1e602c82b7904c4625913455ce8780",
+      "link": "https://explorer.tari.mw/tx/f9f3d6027b580ed193dfae7106957cdd0d1e602c82b7904c4625913455ce8780",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 11933,
+      "fee": 12478,
       "upped": [
-        "vault_4d4fa246d9e1b95781cb0ef550a346044bae32ad37355978e503b198be883824",
-        "utxo_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888_6023770e228c00616b58c91eb5132d4d12f7adff6bbf55b36d532afdac917e17",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_f05a033074c01422a4642a2d2fc9fd5e224b621afb07ca073fc839bd47113c10",
+        "utxo_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69_76533f0e86aadb4c5044d8d66eda0e02608895d5619b95128ef0e08500f5cb6d",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -396,12 +396,12 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:18Z",
+      "time_utc": "2026-11-07T23:11:55Z",
       "public": {
-        "who": "one-time key 6071ab6f10cd\u2026 (unlinked to any player)",
+        "who": "one-time key 8e2ecf89c426\u2026 (unlinked to any player)",
         "what": "the pumpkin moved: old commitment spent, new hidden owner",
-        "spent": "7c861a7bf7bf89df5b570cb3fe48aaab20f7079fb903f3d9f8bb273ff4367839",
-        "commitment": "6023770e228c00616b58c91eb5132d4d12f7adff6bbf55b36d532afdac917e17"
+        "spent": "86107e64ba18a0e522274768d13921087d8ab38cac4ece6e10e1bd074196877f",
+        "commitment": "76533f0e86aadb4c5044d8d66eda0e02608895d5619b95128ef0e08500f5cb6d"
       },
       "private": {
         "from": "Witch",
@@ -411,15 +411,15 @@
     {
       "step": "pass",
       "label": "pass Vampire->Ghost",
-      "tx_id": "cf55b1ba0c8fa9e33aac036638df68c9206e27c53d24aa23e02819cb68598f7d",
-      "link": "https://explorer.tari.mw/tx/cf55b1ba0c8fa9e33aac036638df68c9206e27c53d24aa23e02819cb68598f7d",
-      "epoch": 12690,
+      "tx_id": "9d404d61254117aae6583e8aa2cf5890766d2e76d5ab21e8d03032a50a3b9c14",
+      "link": "https://explorer.tari.mw/tx/9d404d61254117aae6583e8aa2cf5890766d2e76d5ab21e8d03032a50a3b9c14",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 11933,
+      "fee": 12478,
       "upped": [
-        "vault_4d4fa246d9e1b95781cb0ef550a346044bae32ad37355978e503b198be883824",
-        "utxo_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888_4285034356a92109c1102ede1c992a1d5aad8843e94dfaca62bf0f4bc1340146",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_f05a033074c01422a4642a2d2fc9fd5e224b621afb07ca073fc839bd47113c10",
+        "utxo_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69_1c2286d11d3cca43e054132e1fd9a0f5032bbdae8705e434e2cfa567549cd619",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -440,12 +440,12 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:22Z",
+      "time_utc": "2026-11-07T23:12:07Z",
       "public": {
-        "who": "one-time key 7a6fb99c89d9\u2026 (unlinked to any player)",
+        "who": "one-time key 365879181b90\u2026 (unlinked to any player)",
         "what": "the pumpkin moved: old commitment spent, new hidden owner",
-        "spent": "6023770e228c00616b58c91eb5132d4d12f7adff6bbf55b36d532afdac917e17",
-        "commitment": "4285034356a92109c1102ede1c992a1d5aad8843e94dfaca62bf0f4bc1340146"
+        "spent": "76533f0e86aadb4c5044d8d66eda0e02608895d5619b95128ef0e08500f5cb6d",
+        "commitment": "1c2286d11d3cca43e054132e1fd9a0f5032bbdae8705e434e2cfa567549cd619"
       },
       "private": {
         "from": "Vampire",
@@ -455,15 +455,15 @@
     {
       "step": "pass",
       "label": "pass Ghost->Mummy",
-      "tx_id": "99ec772abd53c24ae1dce452add64be842039643386825fda43042dc6d8f955c",
-      "link": "https://explorer.tari.mw/tx/99ec772abd53c24ae1dce452add64be842039643386825fda43042dc6d8f955c",
-      "epoch": 12690,
+      "tx_id": "da9a3bfb44cc07d6ba3c2c1caa72f57c2e8eea95ed1544c4d84866c398b90b72",
+      "link": "https://explorer.tari.mw/tx/da9a3bfb44cc07d6ba3c2c1caa72f57c2e8eea95ed1544c4d84866c398b90b72",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 11933,
+      "fee": 12478,
       "upped": [
-        "vault_4d4fa246d9e1b95781cb0ef550a346044bae32ad37355978e503b198be883824",
-        "utxo_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888_b21f5e66fbf075754f6c365d1f702bd53127021e8964d3010aba64f7d14ea24f",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_f05a033074c01422a4642a2d2fc9fd5e224b621afb07ca073fc839bd47113c10",
+        "utxo_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69_9aaa169ff7728533ebf3a5dd927b7b87e5b255ab7969cdbcc18a39aa71e0e75c",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -484,12 +484,12 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:25Z",
+      "time_utc": "2026-11-07T23:12:19Z",
       "public": {
-        "who": "one-time key 464488e8854d\u2026 (unlinked to any player)",
+        "who": "one-time key 1ab997bc93b0\u2026 (unlinked to any player)",
         "what": "the pumpkin moved: old commitment spent, new hidden owner",
-        "spent": "4285034356a92109c1102ede1c992a1d5aad8843e94dfaca62bf0f4bc1340146",
-        "commitment": "b21f5e66fbf075754f6c365d1f702bd53127021e8964d3010aba64f7d14ea24f"
+        "spent": "1c2286d11d3cca43e054132e1fd9a0f5032bbdae8705e434e2cfa567549cd619",
+        "commitment": "9aaa169ff7728533ebf3a5dd927b7b87e5b255ab7969cdbcc18a39aa71e0e75c"
       },
       "private": {
         "from": "Ghost",
@@ -499,14 +499,14 @@
     {
       "step": "seal_guess",
       "label": "seal guess Vampire",
-      "tx_id": "81cd4284e2f5b04080811b099b0a91cf3eca423a40972e2c55e68ff6ef08c5a6",
-      "link": "https://explorer.tari.mw/tx/81cd4284e2f5b04080811b099b0a91cf3eca423a40972e2c55e68ff6ef08c5a6",
-      "epoch": 12690,
+      "tx_id": "7939edbfbeb7dcd3294e09d7efc39cc9a3e250bd76f06ea88d635c08d99beda9",
+      "link": "https://explorer.tari.mw/tx/7939edbfbeb7dcd3294e09d7efc39cc9a3e250bd76f06ea88d635c08d99beda9",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 3417,
+      "fee": 3687,
       "upped": [
-        "vault_036cad7b1cd2ee8fe0bd8ffb9b5095ca587f9642df142069f8041a56c2627498",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_c4ee4377542bf92a1c95b75f3b3c3ef1439858a387aac9cdb9da6ca42c71d90f",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -518,7 +518,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessSealed",
           "payload": {
-            "player": "52ba27bb27259fdb942d77c0ad779a46a72b2d684a62ea32546c0244c5179e53"
+            "player": "706d47c8204c505d1abaff03110590edf29b04e3f12314237a4387272c0ebe7d"
           }
         },
         {
@@ -527,11 +527,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:29Z",
+      "time_utc": "2026-11-07T23:12:31Z",
       "public": {
-        "who": "player key 52ba27bb2725\u2026",
+        "who": "player key 706d47c8204c\u2026",
         "what": "sealed a guess (a hash; the suspect stays secret)",
-        "sealed": "048e1ea65e22c88e4e22644fc7322a05b63f91ea17c958b7e2be4c88ed50cefd"
+        "sealed": "0f3f4e6ac8f4a88e6af904a706f9a8c73d2a19e9fa0ee64a20ddd8dab46b4331"
       },
       "private": {
         "player": "Vampire",
@@ -541,14 +541,14 @@
     {
       "step": "seal_guess",
       "label": "seal guess Witch",
-      "tx_id": "40fa0460cfcbe77685727c32d4c77c4518cfbaaca85cb271c389415558a59b9e",
-      "link": "https://explorer.tari.mw/tx/40fa0460cfcbe77685727c32d4c77c4518cfbaaca85cb271c389415558a59b9e",
-      "epoch": 12690,
+      "tx_id": "f565bef69016c555068b0331598a2c68644bdcf9f6e1e15b6a64d789a71f186b",
+      "link": "https://explorer.tari.mw/tx/f565bef69016c555068b0331598a2c68644bdcf9f6e1e15b6a64d789a71f186b",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 3450,
+      "fee": 3722,
       "upped": [
-        "vault_d3ad20f616d32bcd6e9d6edc899106f2ac598433290dfddce07935903763084f",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_3fb835b1df861a5ef77ed9b25bfb7e53c9b39b9f9166204968049b67f4b27e41",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -560,7 +560,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessSealed",
           "payload": {
-            "player": "b8e4845b14ec25eb39de204d91d725c50b3fd4689747b412e72eb794add13829"
+            "player": "fab31096806cc429551ac734eb27bde37e8d8bc7930ab8090593520857ab182c"
           }
         },
         {
@@ -569,11 +569,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:32Z",
+      "time_utc": "2026-11-07T23:12:43Z",
       "public": {
-        "who": "player key b8e4845b14ec\u2026",
+        "who": "player key fab31096806c\u2026",
         "what": "sealed a guess (a hash; the suspect stays secret)",
-        "sealed": "f6a00dade3449a57fdfc4b55f2a9bbeea0672dc02b39f2f3cc42ca8b832b1635"
+        "sealed": "0d0251839389bb0adb1837f03ec1b5556a41b46b669655624c0394ca22a8fcad"
       },
       "private": {
         "player": "Witch",
@@ -583,14 +583,14 @@
     {
       "step": "seal_guess",
       "label": "seal guess Ghost",
-      "tx_id": "6931cd3b84380cb3485ffaf7960ad953490c3b31a825739f5471b97710c67f48",
-      "link": "https://explorer.tari.mw/tx/6931cd3b84380cb3485ffaf7960ad953490c3b31a825739f5471b97710c67f48",
-      "epoch": 12690,
+      "tx_id": "2e99841048bf1c5b542f733399af609209374684b34b094d31bc937442714bfd",
+      "link": "https://explorer.tari.mw/tx/2e99841048bf1c5b542f733399af609209374684b34b094d31bc937442714bfd",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 3484,
+      "fee": 3756,
       "upped": [
-        "vault_7fe58a9292f848b722c763a509fe40af48b2ce9c1c41a40d507c7677f6e264f2",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_d97417b2de4b8d200a1ae9663dc870dbc3c0c36a4ce09c99c7588d7a57c54b65",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -602,7 +602,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessSealed",
           "payload": {
-            "player": "8add6cc1d6c6cdd0721d1bb58ec4fd4a8a0498c026aaccc7b7de0734d1b56460"
+            "player": "1425eb2ee318f5b927734749a803113dc220b8a6ac4feaa7deea063fa0752b69"
           }
         },
         {
@@ -611,11 +611,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:35Z",
+      "time_utc": "2026-11-07T23:12:55Z",
       "public": {
-        "who": "player key 8add6cc1d6c6\u2026",
+        "who": "player key 1425eb2ee318\u2026",
         "what": "sealed a guess (a hash; the suspect stays secret)",
-        "sealed": "f07aaf42465f24efd1908b1f584477c0f97ca09d211532db9b9284f016658b30"
+        "sealed": "95b7ea306ac18ed59064bf4090740351d00c2d8d2edf0f278d8227578b81e84e"
       },
       "private": {
         "player": "Ghost",
@@ -625,14 +625,14 @@
     {
       "step": "seal_guess",
       "label": "seal guess Mummy",
-      "tx_id": "826ea23ef9013f1ab6b36820c0a017177d1e83623e4d29d6a2ae29802c357f6b",
-      "link": "https://explorer.tari.mw/tx/826ea23ef9013f1ab6b36820c0a017177d1e83623e4d29d6a2ae29802c357f6b",
-      "epoch": 12690,
+      "tx_id": "9bd81eb4abafd2e2e6a5a2e79f41b5b57a1492574a6219dadcf242490565525e",
+      "link": "https://explorer.tari.mw/tx/9bd81eb4abafd2e2e6a5a2e79f41b5b57a1492574a6219dadcf242490565525e",
+      "epoch": 12942,
       "accepted": true,
-      "fee": 3519,
+      "fee": 3791,
       "upped": [
-        "vault_fdcd72b05cc0b7830741445673fd16e81be1fe1c7fde6fe705196ec40c2cb88b",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_095cd4692b50f12dd70e69ad07118a43cb520907b1cd46a1414f8958f206a76f",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -644,7 +644,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessSealed",
           "payload": {
-            "player": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e"
+            "player": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641"
           }
         },
         {
@@ -653,11 +653,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T00:52:41Z",
+      "time_utc": "2026-11-07T23:13:08Z",
       "public": {
-        "who": "player key d604df43dad1\u2026",
+        "who": "player key 94170f8a1e89\u2026",
         "what": "sealed a guess (a hash; the suspect stays secret)",
-        "sealed": "970afce92e7032744bcb6c4e8d035d596e8239e12868d6ac70dae0fe5ca173df"
+        "sealed": "236bdf122468ea19674c778acb3ce752e6caf833235a55373da3705035b88574"
       },
       "private": {
         "player": "Mummy",
@@ -667,15 +667,15 @@
     {
       "step": "reveal",
       "label": "reveal Mummy",
-      "tx_id": "8b525b81c47879829ce8706ed255909601ff79e71c22977fdc3726591de7c295",
-      "link": "https://explorer.tari.mw/tx/8b525b81c47879829ce8706ed255909601ff79e71c22977fdc3726591de7c295",
-      "epoch": 12691,
+      "tx_id": "f15c4ba6265f62733c6325cfa1aeef6a2f01e3924aa164ab046e6fdabe23e31b",
+      "link": "https://explorer.tari.mw/tx/f15c4ba6265f62733c6325cfa1aeef6a2f01e3924aa164ab046e6fdabe23e31b",
+      "epoch": 12943,
       "accepted": true,
-      "fee": 6205,
+      "fee": 6510,
       "upped": [
-        "vault_fdcd72b05cc0b7830741445673fd16e81be1fe1c7fde6fe705196ec40c2cb88b",
-        "vault_4d0f543f36e500dc4fe68c00a7d2487a943412d063a45926776c2f97d4cff3d9",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_095cd4692b50f12dd70e69ad07118a43cb520907b1cd46a1414f8958f206a76f",
+        "vault_f02833f6ca3885c94dc62a0e9e0d17724a15870881f9bbe025b7bb81ea0271b1",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -693,7 +693,7 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.Revealed",
           "payload": {
-            "holder": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e",
+            "holder": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641",
             "passes": "3"
           }
         },
@@ -703,11 +703,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T15:05:49Z",
+      "time_utc": "2026-11-07T23:39:36Z",
       "public": {
-        "who": "player key d604df43dad1\u2026",
+        "who": "player key 94170f8a1e89\u2026",
         "what": "midnight: the holder proved ownership by spending the live pumpkin back into the cauldron",
-        "spent": "b21f5e66fbf075754f6c365d1f702bd53127021e8964d3010aba64f7d14ea24f"
+        "spent": "9aaa169ff7728533ebf3a5dd927b7b87e5b255ab7969cdbcc18a39aa71e0e75c"
       },
       "private": {
         "holder": "Mummy"
@@ -716,14 +716,14 @@
     {
       "step": "open_guess",
       "label": "open guess Vampire",
-      "tx_id": "ad3c99bbdbf4bd5542aad8c607343feda3850bd76ac1849aa2584b67f57450e2",
-      "link": "https://explorer.tari.mw/tx/ad3c99bbdbf4bd5542aad8c607343feda3850bd76ac1849aa2584b67f57450e2",
-      "epoch": 12691,
+      "tx_id": "1e0c5e8397708beaec2e807f588782920ac0939d87f915c1a1b26606efbebad1",
+      "link": "https://explorer.tari.mw/tx/1e0c5e8397708beaec2e807f588782920ac0939d87f915c1a1b26606efbebad1",
+      "epoch": 12943,
       "accepted": true,
-      "fee": 3738,
+      "fee": 4012,
       "upped": [
-        "vault_036cad7b1cd2ee8fe0bd8ffb9b5095ca587f9642df142069f8041a56c2627498",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_c4ee4377542bf92a1c95b75f3b3c3ef1439858a387aac9cdb9da6ca42c71d90f",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -735,8 +735,8 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessOpened",
           "payload": {
-            "player": "52ba27bb27259fdb942d77c0ad779a46a72b2d684a62ea32546c0244c5179e53",
-            "suspect": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e"
+            "player": "706d47c8204c505d1abaff03110590edf29b04e3f12314237a4387272c0ebe7d",
+            "suspect": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641"
           }
         },
         {
@@ -745,10 +745,10 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T15:06:01Z",
+      "time_utc": "2026-11-07T23:39:39Z",
       "public": {
-        "who": "player key 52ba27bb2725\u2026",
-        "what": "opened their guess: suspect d604df43dad1\u2026"
+        "who": "player key 706d47c8204c\u2026",
+        "what": "opened their guess: suspect 94170f8a1e89\u2026"
       },
       "private": {
         "player": "Vampire",
@@ -758,14 +758,14 @@
     {
       "step": "open_guess",
       "label": "open guess Witch",
-      "tx_id": "fb1ab41f19860c959225d31812b65716aefb61456f2229e2cd6cdc70015b3cff",
-      "link": "https://explorer.tari.mw/tx/fb1ab41f19860c959225d31812b65716aefb61456f2229e2cd6cdc70015b3cff",
-      "epoch": 12691,
+      "tx_id": "9cf2205c096e514cabcc51ca45d4a2f9672b43d9ea3f63f71ddc20667c9a1460",
+      "link": "https://explorer.tari.mw/tx/9cf2205c096e514cabcc51ca45d4a2f9672b43d9ea3f63f71ddc20667c9a1460",
+      "epoch": 12943,
       "accepted": true,
-      "fee": 3772,
+      "fee": 4047,
       "upped": [
-        "vault_d3ad20f616d32bcd6e9d6edc899106f2ac598433290dfddce07935903763084f",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_3fb835b1df861a5ef77ed9b25bfb7e53c9b39b9f9166204968049b67f4b27e41",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -777,8 +777,8 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessOpened",
           "payload": {
-            "player": "b8e4845b14ec25eb39de204d91d725c50b3fd4689747b412e72eb794add13829",
-            "suspect": "8add6cc1d6c6cdd0721d1bb58ec4fd4a8a0498c026aaccc7b7de0734d1b56460"
+            "player": "fab31096806cc429551ac734eb27bde37e8d8bc7930ab8090593520857ab182c",
+            "suspect": "1425eb2ee318f5b927734749a803113dc220b8a6ac4feaa7deea063fa0752b69"
           }
         },
         {
@@ -787,10 +787,10 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T15:06:14Z",
+      "time_utc": "2026-11-07T23:39:52Z",
       "public": {
-        "who": "player key b8e4845b14ec\u2026",
-        "what": "opened their guess: suspect 8add6cc1d6c6\u2026"
+        "who": "player key fab31096806c\u2026",
+        "what": "opened their guess: suspect 1425eb2ee318\u2026"
       },
       "private": {
         "player": "Witch",
@@ -800,14 +800,14 @@
     {
       "step": "open_guess",
       "label": "open guess Ghost",
-      "tx_id": "46a0b55ff4ad1685ef04b7505e5e42c215fb8c2f7d760c8cd02173e9b7d5657d",
-      "link": "https://explorer.tari.mw/tx/46a0b55ff4ad1685ef04b7505e5e42c215fb8c2f7d760c8cd02173e9b7d5657d",
-      "epoch": 12691,
+      "tx_id": "52887d3712f313fbcda52fa01cbf0d78d64d1a64b5f7124f94dff3e44f3677a7",
+      "link": "https://explorer.tari.mw/tx/52887d3712f313fbcda52fa01cbf0d78d64d1a64b5f7124f94dff3e44f3677a7",
+      "epoch": 12943,
       "accepted": true,
-      "fee": 3806,
+      "fee": 4082,
       "upped": [
-        "vault_7fe58a9292f848b722c763a509fe40af48b2ce9c1c41a40d507c7677f6e264f2",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_d97417b2de4b8d200a1ae9663dc870dbc3c0c36a4ce09c99c7588d7a57c54b65",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -819,8 +819,8 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessOpened",
           "payload": {
-            "player": "8add6cc1d6c6cdd0721d1bb58ec4fd4a8a0498c026aaccc7b7de0734d1b56460",
-            "suspect": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e"
+            "player": "1425eb2ee318f5b927734749a803113dc220b8a6ac4feaa7deea063fa0752b69",
+            "suspect": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641"
           }
         },
         {
@@ -829,10 +829,10 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T15:06:20Z",
+      "time_utc": "2026-11-07T23:40:04Z",
       "public": {
-        "who": "player key 8add6cc1d6c6\u2026",
-        "what": "opened their guess: suspect d604df43dad1\u2026"
+        "who": "player key 1425eb2ee318\u2026",
+        "what": "opened their guess: suspect 94170f8a1e89\u2026"
       },
       "private": {
         "player": "Ghost",
@@ -842,14 +842,14 @@
     {
       "step": "open_guess",
       "label": "open guess Mummy",
-      "tx_id": "edaf860eb92c63666daebf57ea0d26ccde36fc0a85d6763957eb925520caf28d",
-      "link": "https://explorer.tari.mw/tx/edaf860eb92c63666daebf57ea0d26ccde36fc0a85d6763957eb925520caf28d",
-      "epoch": 12691,
+      "tx_id": "58e5607df9fbfaf459a2857c16ec0ff9184b2ac846ed37c4a1f170685d526a11",
+      "link": "https://explorer.tari.mw/tx/58e5607df9fbfaf459a2857c16ec0ff9184b2ac846ed37c4a1f170685d526a11",
+      "epoch": 12943,
       "accepted": true,
-      "fee": 3840,
+      "fee": 4116,
       "upped": [
-        "vault_fdcd72b05cc0b7830741445673fd16e81be1fe1c7fde6fe705196ec40c2cb88b",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_095cd4692b50f12dd70e69ad07118a43cb520907b1cd46a1414f8958f206a76f",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -861,8 +861,8 @@
         {
           "topic": "CursedPumpkin.CursedPumpkin.GuessOpened",
           "payload": {
-            "player": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e",
-            "suspect": "52ba27bb27259fdb942d77c0ad779a46a72b2d684a62ea32546c0244c5179e53"
+            "player": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641",
+            "suspect": "706d47c8204c505d1abaff03110590edf29b04e3f12314237a4387272c0ebe7d"
           }
         },
         {
@@ -871,10 +871,10 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T15:06:32Z",
+      "time_utc": "2026-11-07T23:40:16Z",
       "public": {
-        "who": "player key d604df43dad1\u2026",
-        "what": "opened their guess: suspect 52ba27bb2725\u2026"
+        "who": "player key 94170f8a1e89\u2026",
+        "what": "opened their guess: suspect 706d47c8204c\u2026"
       },
       "private": {
         "player": "Mummy",
@@ -884,15 +884,15 @@
     {
       "step": "claim",
       "label": "claim Mummy",
-      "tx_id": "e7defb6db1038631594ca9643bae500a71b74fdb3a72af776768e4070a1653bd",
-      "link": "https://explorer.tari.mw/tx/e7defb6db1038631594ca9643bae500a71b74fdb3a72af776768e4070a1653bd",
-      "epoch": 12692,
+      "tx_id": "4e344b0e5499a16cc7d3e57333566a7bc7cfd387bc2e6112aefb6ca3186df906",
+      "link": "https://explorer.tari.mw/tx/4e344b0e5499a16cc7d3e57333566a7bc7cfd387bc2e6112aefb6ca3186df906",
+      "epoch": 12944,
       "accepted": true,
-      "fee": 4553,
+      "fee": 4825,
       "upped": [
-        "vault_fdcd72b05cc0b7830741445673fd16e81be1fe1c7fde6fe705196ec40c2cb88b",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_095cd4692b50f12dd70e69ad07118a43cb520907b1cd46a1414f8958f206a76f",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -905,7 +905,7 @@
           "topic": "CursedPumpkin.CursedPumpkin.Claimed",
           "payload": {
             "amount": "1000000",
-            "player": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e"
+            "player": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641"
           }
         },
         {
@@ -926,11 +926,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T16:05:53Z",
+      "time_utc": "2026-11-08T00:26:52Z",
       "public": {
-        "who": "player key d604df43dad1\u2026",
-        "what": "claimed their share of the pot",
-        "balance_change": 995447
+        "who": "player key 94170f8a1e89\u2026",
+        "what": "claimed their own bond back (the holder)",
+        "balance_change": 995175
       },
       "private": {
         "player": "Mummy"
@@ -939,15 +939,15 @@
     {
       "step": "claim",
       "label": "claim Vampire",
-      "tx_id": "0d9559911f4eb4d6eb6f6117b9265909f42c086f6385eca4827a8c8c55b07d9f",
-      "link": "https://explorer.tari.mw/tx/0d9559911f4eb4d6eb6f6117b9265909f42c086f6385eca4827a8c8c55b07d9f",
-      "epoch": 12692,
+      "tx_id": "0738b7f94329a823350120557081c0e625ae409723079dad9bdc3b32bd487959",
+      "link": "https://explorer.tari.mw/tx/0738b7f94329a823350120557081c0e625ae409723079dad9bdc3b32bd487959",
+      "epoch": 12944,
       "accepted": true,
-      "fee": 4555,
+      "fee": 4825,
       "upped": [
-        "vault_036cad7b1cd2ee8fe0bd8ffb9b5095ca587f9642df142069f8041a56c2627498",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_c4ee4377542bf92a1c95b75f3b3c3ef1439858a387aac9cdb9da6ca42c71d90f",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -960,7 +960,7 @@
           "topic": "CursedPumpkin.CursedPumpkin.Claimed",
           "payload": {
             "amount": "1500000",
-            "player": "52ba27bb27259fdb942d77c0ad779a46a72b2d684a62ea32546c0244c5179e53"
+            "player": "706d47c8204c505d1abaff03110590edf29b04e3f12314237a4387272c0ebe7d"
           }
         },
         {
@@ -981,11 +981,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T16:06:06Z",
+      "time_utc": "2026-11-08T00:27:05Z",
       "public": {
-        "who": "player key 52ba27bb2725\u2026",
+        "who": "player key 706d47c8204c\u2026",
         "what": "claimed their share of the pot",
-        "balance_change": 1495445
+        "balance_change": 1495175
       },
       "private": {
         "player": "Vampire"
@@ -994,15 +994,15 @@
     {
       "step": "claim",
       "label": "claim Ghost",
-      "tx_id": "2dc127079081241f14bc915cf6064f497d5df758e202c4bef5cd278fba1531c6",
-      "link": "https://explorer.tari.mw/tx/2dc127079081241f14bc915cf6064f497d5df758e202c4bef5cd278fba1531c6",
-      "epoch": 12692,
+      "tx_id": "46fe5a824b65780352d4a88326f819c1021a07aa70b3500d47b1028e57b859f8",
+      "link": "https://explorer.tari.mw/tx/46fe5a824b65780352d4a88326f819c1021a07aa70b3500d47b1028e57b859f8",
+      "epoch": 12944,
       "accepted": true,
-      "fee": 4551,
+      "fee": 4821,
       "upped": [
-        "vault_7fe58a9292f848b722c763a509fe40af48b2ce9c1c41a40d507c7677f6e264f2",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_d97417b2de4b8d200a1ae9663dc870dbc3c0c36a4ce09c99c7588d7a57c54b65",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -1015,7 +1015,7 @@
           "topic": "CursedPumpkin.CursedPumpkin.Claimed",
           "payload": {
             "amount": "1500000",
-            "player": "8add6cc1d6c6cdd0721d1bb58ec4fd4a8a0498c026aaccc7b7de0734d1b56460"
+            "player": "1425eb2ee318f5b927734749a803113dc220b8a6ac4feaa7deea063fa0752b69"
           }
         },
         {
@@ -1036,11 +1036,11 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T16:06:19Z",
+      "time_utc": "2026-11-08T00:27:18Z",
       "public": {
-        "who": "player key 8add6cc1d6c6\u2026",
+        "who": "player key 1425eb2ee318\u2026",
         "what": "claimed their share of the pot",
-        "balance_change": 1495449
+        "balance_change": 1495179
       },
       "private": {
         "player": "Ghost"
@@ -1049,15 +1049,15 @@
     {
       "step": "claim",
       "label": "claim Witch",
-      "tx_id": "1f350436e47aa23a716174f38c2937c071b135fe21d0dcd88010b6e8ce2ef38e",
-      "link": "https://explorer.tari.mw/tx/1f350436e47aa23a716174f38c2937c071b135fe21d0dcd88010b6e8ce2ef38e",
-      "epoch": 12692,
+      "tx_id": "1a549053bfedfe789ffd6201dd86d975105253c6ac246b944e8b581ecf5a3f1e",
+      "link": "https://explorer.tari.mw/tx/1a549053bfedfe789ffd6201dd86d975105253c6ac246b944e8b581ecf5a3f1e",
+      "epoch": 12944,
       "accepted": true,
-      "fee": 4395,
+      "fee": 4665,
       "upped": [
-        "vault_d3ad20f616d32bcd6e9d6edc899106f2ac598433290dfddce07935903763084f",
-        "vault_4d569de323d5399f71727648f0abd35702917c875a806f0db59d0a31a658a9bb",
-        "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585"
+        "vault_3fb835b1df861a5ef77ed9b25bfb7e53c9b39b9f9166204968049b67f4b27e41",
+        "vault_f00a822979825f99e4922ea9d7d62cd1f57f73b94e7db2b8f5506d68bf5e5422",
+        "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf"
       ],
       "events": [
         {
@@ -1070,7 +1070,7 @@
           "topic": "CursedPumpkin.CursedPumpkin.Claimed",
           "payload": {
             "amount": "0",
-            "player": "b8e4845b14ec25eb39de204d91d725c50b3fd4689747b412e72eb794add13829"
+            "player": "fab31096806cc429551ac734eb27bde37e8d8bc7930ab8090593520857ab182c"
           }
         },
         {
@@ -1085,55 +1085,55 @@
         }
       ],
       "reason": null,
-      "time_utc": "2026-10-28T16:06:30Z",
+      "time_utc": "2026-11-08T00:27:30Z",
       "public": {
-        "who": "player key b8e4845b14ec\u2026",
-        "what": "claimed their share of the pot",
-        "balance_change": -4395
+        "who": "player key fab31096806c\u2026",
+        "what": "claimed nothing back (bond forfeited to the right guessers); paid only the fee",
+        "balance_change": -4665
       },
       "private": {
         "player": "Witch"
       }
     }
   ],
-  "template": {
-    "address": "template_7660acdce0b99082374f3488654af0ea4cd7e01a2e912b84d53ccce0ead9e1d9",
-    "publish_tx": "8991ab11019d61e6bb1664444c0d37617d2477977845d53dcd4d1da9959da477",
-    "link": "https://explorer.tari.mw/tx/8991ab11019d61e6bb1664444c0d37617d2477977845d53dcd4d1da9959da477",
-    "fee": 6372645,
-    "wasm_bytes": 320756
-  },
   "players": {
     "Vampire": {
-      "player_key": "52ba27bb27259fdb942d77c0ad779a46a72b2d684a62ea32546c0244c5179e53",
-      "ghost_key": "3611b8cb438b26ed0cd4552877d7316ddb44ca0ec4910640b2e9f552fa6cb258",
-      "account": "component_0316033bd5ac060b0456de347218d1d95cfacd3e404a097a6b033ce0e41b4c65"
+      "player_key": "706d47c8204c505d1abaff03110590edf29b04e3f12314237a4387272c0ebe7d",
+      "ghost_key": "a030be683a58a66de3562c04abe4097520b9a357e4b46d2bd7ea5b8a4858611a",
+      "account": "component_c41dcf949d8f7c5df4a41e4d979bbd034e5932398b9673b6efb8db6411adcb93"
     },
     "Mummy": {
-      "player_key": "d604df43dad14c44a8bf627c0f3da6dce4fa73715cb49a8ec3eb0e9d69085b2e",
-      "ghost_key": "fcfc1d818b9bde2ffb9d76f2fcdab912d7cd515f3b649f2062607abe4cc1c211",
-      "account": "component_fded65ea20199483914f83bc436e12385c8b0fdb0c629e00af69972651ab4fc3"
+      "player_key": "94170f8a1e894350ccdab3b305e5c8ab020b674a7ac28a5f1bf30801aed5a641",
+      "ghost_key": "5611c0bb000a8c00a0fa42f7ea421693a4f8c08c1c55b2d5ad511cd7e3d83f4f",
+      "account": "component_09a8d47b74a4e0cff721c9d5183b1c7274bdade8658b44d366b21c701c9df033"
     },
     "Witch": {
-      "player_key": "b8e4845b14ec25eb39de204d91d725c50b3fd4689747b412e72eb794add13829",
-      "ghost_key": "74e9914619334421a89dfab4f37e6ba6b3b67762a6f214998d998cc2ea7aee44",
-      "account": "component_d3ef7f5f9c13094eb73e179f78f9ae31728457711b19fd6724a5ca2dc57644c7"
+      "player_key": "fab31096806cc429551ac734eb27bde37e8d8bc7930ab8090593520857ab182c",
+      "ghost_key": "0264f956c8076274f899d1d3889d65a3cf929dfe2555d1672f8e146d09865773",
+      "account": "component_3f35318d7a434eae0a658ff2d9ce5a3e863c6b5e439a191038dbddecf7d17354"
     },
     "Ghost": {
-      "player_key": "8add6cc1d6c6cdd0721d1bb58ec4fd4a8a0498c026aaccc7b7de0734d1b56460",
-      "ghost_key": "d2689c1b65589318a5717e0b0467212e63c3bea24fa926b6223d4421c2769221",
-      "account": "component_7fbbd2ee08427e4bb72b96af26193a37aab8899b795da7d255177c561ed86d38"
+      "player_key": "1425eb2ee318f5b927734749a803113dc220b8a6ac4feaa7deea063fa0752b69",
+      "ghost_key": "c45336dcf9ee3b82753d358f2adbfacf8487894e5de9327088c2d470d66d4049",
+      "account": "component_d960d3288aabef3631485a829bdc76d5b56015f5ea052b0d6b2262d490f878e4"
     }
   },
-  "publish_tx": "8991ab11019d61e6bb1664444c0d37617d2477977845d53dcd4d1da9959da477",
+  "template": {
+    "address": "template_cb295c2957234e85ed7de45c45e5c024b5351ff23a3737ffba464b1673d00343",
+    "publish_tx": "27d48b78458d3959c7d56a7f80df6c6e59a1ef4e4e9a66482ae2f98bbb1c94cd",
+    "link": "https://explorer.tari.mw/tx/27d48b78458d3959c7d56a7f80df6c6e59a1ef4e4e9a66482ae2f98bbb1c94cd",
+    "fee": 6331023,
+    "wasm_bytes": 320488
+  },
   "game": {
-    "component": "component_4d0a749877d4a39e78985943339fb75195b575721cca907a82b4421221685585",
-    "pumpkin": "resource_4dfa9c5ca89f5afd9bac2e19a0de9fb7546bab7965222e4c01769a67affc8888",
-    "name": "All Hallows Esmeralda II",
-    "created_epoch": 12690,
-    "midnight_epoch": 12691,
-    "reveal_until_epoch": 12692,
+    "component": "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf",
+    "pumpkin": "resource_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69",
+    "name": "Esmeralda Reset Night",
+    "created_epoch": 12942,
+    "midnight_epoch": 12943,
+    "reveal_until_epoch": 12944,
     "bond": 1000000,
-    "template": "template_7660acdce0b99082374f3488654af0ea4cd7e01a2e912b84d53ccce0ead9e1d9"
-  }
+    "template": "template_cb295c2957234e85ed7de45c45e5c024b5351ff23a3737ffba464b1673d00343"
+  },
+  "publish_tx": "27d48b78458d3959c7d56a7f80df6c6e59a1ef4e4e9a66482ae2f98bbb1c94cd"
 }
