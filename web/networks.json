@@ -1,0 +1,47 @@
+{
+  "defaultNetwork": "esmeralda",
+  "notes": "Committed default stays Esmeralda so https://mzee04.github.io/cursed-pumpkin/ keeps reading the testnet game. Select mainnet in the page, or open ?network=mainnet. Leave mainnet template, component, pumpkin, and publishTx empty until a human publishes and copies the real addresses. Do not copy Esmeralda addresses into the mainnet fields.",
+  "networks": {
+    "esmeralda": {
+      "id": "esmeralda",
+      "label": "Esmeralda testnet",
+      "cliNetwork": "esmeralda",
+      "cliAliases": ["esme"],
+      "env": "TARI_NETWORK=esmeralda",
+      "addressPrefix": "otl_esm_",
+      "unit": "tTARI",
+      "indexers": [
+        "https://ootle-indexer-a.tari.com",
+        "https://esme-indexer-a.ootle.tari.com",
+        "https://esme-indexer-b.ootle.tari.com"
+      ],
+      "indexerNotes": "First URL is the one the live site and the recorded game already use. The esme-indexer hosts are the Esmeralda public indexers in the exchange-integration guide (checked 2026-11-11). The app tries them in order.",
+      "explorer": "https://testnet-explorer.tari.mw",
+      "explorerNotes": "Esmeralda's stable explorer. explorer.tari.mw still served this testnet on 2026-11-11 and becomes the mainnet explorer at launch. Recorded step links inside web/data/recorded-game.json are the historical explorer.tari.mw URLs; the replay rewrites them onto this explorer.",
+      "template": "template_cb295c2957234e85ed7de45c45e5c024b5351ff23a3737ffba464b1673d00343",
+      "component": "component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf",
+      "pumpkin": "resource_f0003b31428c78cf6622658a9d3bab884b2db890294ad8793f69c12b6a3acf69",
+      "publishTx": "27d48b78458d3959c7d56a7f80df6c6e59a1ef4e4e9a66482ae2f98bbb1c94cd"
+    },
+    "mainnet": {
+      "id": "mainnet",
+      "label": "Ootle mainnet",
+      "cliNetwork": "mainnet",
+      "cliAliases": [],
+      "env": "TARI_NETWORK=mainnet",
+      "addressPrefix": "otl_",
+      "unit": "TARI",
+      "indexers": [
+        "https://indexer-a.ootle.tari.com",
+        "https://indexer-b.ootle.tari.com"
+      ],
+      "indexerNotes": "From the exchange-integration guide on 2026-11-11. That guide still says some mainnet values are placeholders that can change before launch. Both hosts returned HTTP 523 at 2026-11-11T00:32Z. Re-check the guide and GET /network before publishing. Point the wallet at whichever host answers with network mainnet.",
+      "explorer": "https://explorer.tari.mw",
+      "explorerNotes": "Veil moves explorer.tari.mw to mainnet when the mainnet indexer is serving. Esmeralda stays at testnet-explorer.tari.mw.",
+      "template": "",
+      "component": "",
+      "pumpkin": "",
+      "publishTx": ""
+    }
+  }
+}

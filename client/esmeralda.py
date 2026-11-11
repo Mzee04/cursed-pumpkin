@@ -1,5 +1,7 @@
 """Drive a real Cursed Pumpkin game on the Esmeralda testnet.
 
+This file signs and submits transactions. It is not a mainnet publisher. See MAINNET_LAUNCH.md.
+
     python client/esmeralda.py <command> [args]
 
 Keys live in secrets/esmeralda.json (testnet throwaways, git-ignored). Every accepted transaction is appended to
