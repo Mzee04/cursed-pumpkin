@@ -122,7 +122,9 @@ async function applyNetwork(id) {
   const liveBanner = $("#live-banner");
   if (liveBanner) {
     liveBanner.innerHTML = next.id === "mainnet"
-      ? "🔴 <b>Mainnet view.</b> Indexer, explorer, and addresses come from <code>networks.json</code>. Template and component stay empty until you publish and paste the real ones."
+      ? (next.component
+          ? "🔴 <b>Mainnet view.</b> Read straight from the Ootle mainnet indexer, right now. Nothing here is from our own server."
+          : "🔴 <b>Mainnet view.</b> Indexer, explorer, and addresses come from <code>networks.json</code>. Template and component stay empty until you publish and paste the real ones.")
       : "🔴 Read straight from the Esmeralda indexer, right now. Nothing here is from our own server.";
   }
   const walletBanner = $("#wallet-banner");
