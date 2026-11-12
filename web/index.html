@@ -16,7 +16,11 @@
   <div class="fog" aria-hidden="true"></div>
   <header class="hero">
     <div class="moon" aria-hidden="true"></div>
-    <p class="kicker">Tari Ootle · Esmeralda testnet · Spooky Secrets</p>
+    <p class="kicker" id="kicker">Tari Ootle · Ootle mainnet · Spooky Secrets</p>
+    <label class="netpick">Network
+      <select id="network" aria-label="Network"></select>
+    </label>
+    <p class="netstatus" id="net-status"></p>
     <h1><span class="pumpkin-emoji" aria-hidden="true">🎃</span> <span class="grad">The Cursed Pumpkin</span></h1>
     <p class="lede">There is exactly <b>one</b> pumpkin. It is passed from hand to hand in secret.
       The chain sees every pass, but never who gave it or who got it.
@@ -61,7 +65,8 @@
 
     <!-- ───────────────────────── live ───────────────────────── -->
     <section id="live" class="panel" role="tabpanel" hidden>
-      <div class="banner">🔴 Read straight from the Esmeralda indexer, right now. Nothing here is from our own server.</div>
+      <div class="banner" id="live-banner">🔴 <b>Mainnet view.</b> Read straight from the Ootle mainnet indexer, right now. Nothing here is from our own server.</div>
+      <p class="hint" id="tpl-addr"></p>
       <div class="cards" id="live-cards"><p>Loading…</p></div>
       <label class="addr">Game component
         <input id="game-id" spellcheck="false" />
@@ -71,7 +76,7 @@
 
     <!-- ───────────────────────── wallet ───────────────────────── -->
     <section id="wallet" class="panel" role="tabpanel" hidden>
-      <div class="banner">🔐 Uses the <b>Sapient</b> extension (or Tari Universe). Read-only: nothing here spends anything.</div>
+      <div class="banner" id="wallet-banner">🔐 Uses the <b>Sapient</b> extension (or Tari Universe). Read-only: nothing here spends anything.</div>
       <ol class="steps">
         <li><button id="w-connect" class="primary">Connect wallet</button> <span id="w-acct"></span></li>
         <li><button id="w-scan" disabled>Scan my wallet for the pumpkin</button>
@@ -111,7 +116,7 @@
         <li>The final holder, at midnight. That is the point of the reveal.</li>
         <li>Off-chain metadata: IP addresses, when you're online, and who you message for a ghost address.</li>
       </ul>
-      <p>Code and threat model: see the README in the repository.</p>
+      <p>Code and threat model: see the README in the repository. Indexer, explorer, and template addresses live in <code>networks.json</code>. The default is Ootle mainnet. Open the network selector or <code>?network=esmeralda</code> to read the recorded Esmeralda game. Launch steps are in <code>MAINNET_LAUNCH.md</code>.</p>
     </section>
   </main>
 

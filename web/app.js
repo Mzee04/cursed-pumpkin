@@ -1,15 +1,154 @@
-/* The Cursed Pumpkin: static front end. No build step, no dependencies, no server of our own. */
+/* The Cursed Pumpkin: static front end. No build step, no dependencies, no server of our own.
+   Endpoints and addresses come from networks.json. The file's default is Ootle mainnet. */
 "use strict";
 
-const INDEXER = "https://ootle-indexer-a.tari.com";
-const EXPLORER = "https://explorer.tari.mw/tx/";
+const STORAGE_KEY = "cursed-pumpkin-network";
 const FACES = { Vampire: "🧛", Mummy: "🧟", Witch: "🧙", Ghost: "👻" };
 
 const $ = (s, el = document) => el.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const short = (h, n = 10) => (h && h.length > n * 2 ? `${h.slice(0, n)}…${h.slice(-4)}` : h || "");
-const tari = (micro) => `${(Number(micro) / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 })} tTARI`;
+const money = (micro, unit = "tTARI") => `${(Number(micro) / 1e6).toLocaleString(undefined, { maximumFractionDigits: 6 })} ${unit}`;
 const bare = (id) => String(id).replace(/^[a-z]+_/, "");
+const trimSlash = (url) => String(url || "").replace(/\/+$/, "");
+const txUrl = (explorer, txId) => `${trimSlash(explorer)}/tx/${txId}`;
+
+let CONFIG = null;
+let NET = null;
+let ACTIVE_INDEXER = "https://ootle-indexer-a.tari.com";
+
+function esmeraldaNet() {
+  return CONFIG?.networks?.esmeralda || null;
+}
+
+function knownComponents() {
+  const ids = Object.values(CONFIG?.networks || {}).map((n) => n.component).filter(Boolean);
+  if (REC?.game?.component) ids.push(REC.game.component);
+  return new Set(ids);
+}
+
+function syncGameId() {
+  const input = $("#game-id");
+  if (!input || !NET) return;
+  const current = input.value.trim();
+  if (!current || knownComponents().has(current)) input.value = NET.component || "";
+}
+
+function updateFooter() {
+  const link = $("#tpl-link");
+  if (!link || !NET) return;
+  if (NET.id === "mainnet") {
+    if (NET.publishTx) {
+      link.href = txUrl(NET.explorer, NET.publishTx);
+      link.textContent = "mainnet template on the explorer";
+    } else {
+      link.href = "https://explorer.tari.mw/";
+      link.textContent = "mainnet template not published yet";
+    }
+    return;
+  }
+  const esme = esmeraldaNet();
+  const tx = esme?.publishTx || REC?.publish_tx;
+  if (tx && esme?.explorer) {
+    link.href = txUrl(esme.explorer, tx);
+    link.textContent = "template on the testnet explorer";
+  }
+}
+
+async function indexerGet(path) {
+  const bases = (NET?.indexers?.length ? NET.indexers : [ACTIVE_INDEXER]).map(trimSlash);
+  let last = "no indexer configured";
+  for (const base of bases) {
+    try {
+      const r = await fetch(`${base}${path}`);
+      if (!r.ok) {
+        last = `${new URL(base).host} HTTP ${r.status}`;
+        continue;
+      }
+      ACTIVE_INDEXER = base;
+      return r;
+    } catch (e) {
+      last = `${new URL(base).host} ${e.message || e}`;
+    }
+  }
+  throw new Error(last);
+}
+
+async function probeIndexer() {
+  const status = $("#net-status");
+  if (!status || !NET) return;
+  try {
+    const body = await (await indexerGet("/network")).json();
+    const host = new URL(ACTIVE_INDEXER).host;
+    const mismatch = body.network && body.network !== NET.id;
+    status.innerHTML = mismatch
+      ? `<span class="bad">${esc(NET.label)} is selected, but ${esc(host)} reports ${esc(body.network)}. Check web/networks.json before trusting this view.</span>`
+      : `${esc(NET.label)} · ${esc(host)} · epoch ${esc(body.epoch)}`;
+  } catch (e) {
+    const pending = NET.id === "mainnet" && !NET.template;
+    status.innerHTML = pending
+      ? `${esc(NET.label)} · indexer not reachable yet (${esc(e.message)}). Public mainnet indexers stay down until launch, and the template address is still empty.`
+      : `<span class="bad">${esc(NET.label)} · indexer not reachable (${esc(e.message)}).</span>`;
+  }
+}
+
+function initialNetworkId() {
+  const q = new URLSearchParams(location.search).get("network");
+  if (q && CONFIG.networks[q]) return q;
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && CONFIG.networks[stored]) return stored;
+  } catch { /* private mode */ }
+  return CONFIG.networks[CONFIG.defaultNetwork] ? CONFIG.defaultNetwork : "esmeralda";
+}
+
+function fillNetworkSelect() {
+  const sel = $("#network");
+  if (!sel) return;
+  sel.innerHTML = Object.values(CONFIG.networks).map((n) => {
+    const label = n.id === "mainnet" && !n.template ? `${n.label} (not published)` : n.label;
+    return `<option value="${esc(n.id)}">${esc(label)}</option>`;
+  }).join("");
+}
+
+async function applyNetwork(id) {
+  const next = CONFIG.networks[id] || CONFIG.networks[CONFIG.defaultNetwork];
+  NET = next;
+  try { localStorage.setItem(STORAGE_KEY, next.id); } catch { /* ignore */ }
+  const sel = $("#network");
+  if (sel && sel.value !== next.id) sel.value = next.id;
+  const kicker = $("#kicker");
+  if (kicker) kicker.textContent = `Tari Ootle · ${next.label} · Spooky Secrets`;
+  const liveBanner = $("#live-banner");
+  if (liveBanner) {
+    liveBanner.innerHTML = next.id === "mainnet"
+      ? (next.component
+          ? "🔴 <b>Mainnet view.</b> Read straight from the Ootle mainnet indexer, right now. Nothing here is from our own server."
+          : "🔴 <b>Mainnet view.</b> Indexer, explorer, and addresses come from <code>networks.json</code>. Template and component stay empty until you publish and paste the real ones.")
+      : "🔴 Read straight from the Esmeralda indexer, right now. Nothing here is from our own server.";
+  }
+  const walletBanner = $("#wallet-banner");
+  if (walletBanner) {
+    walletBanner.innerHTML = `🔐 Uses the <b>Sapient</b> extension (or Tari Universe), switched to <b>${esc(next.label)}</b> (prefix <code>${esc(next.addressPrefix)}</code>). Read-only: nothing here spends anything.`;
+  }
+  const tpl = $("#tpl-addr");
+  if (tpl) {
+    tpl.innerHTML = next.template
+      ? `Template <code>${esc(next.template)}</code> · prefix <code>${esc(next.addressPrefix)}</code>`
+      : "Mainnet template address is empty. Publish from your wallet, then set <code>networks.mainnet.template</code> in <code>networks.json</code>.";
+  }
+  syncGameId();
+  updateFooter();
+  await probeIndexer();
+  if ($("#live") && !$("#live").hidden) loadLive();
+}
+
+async function loadConfig() {
+  const r = await fetch("networks.json", { cache: "no-cache" });
+  if (!r.ok) throw new Error(`networks.json HTTP ${r.status}`);
+  CONFIG = await r.json();
+  if (!CONFIG.networks?.esmeralda || !CONFIG.networks?.mainnet) throw new Error("networks.json is missing esmeralda or mainnet");
+}
 
 /* ───────────────────────────── tabs ───────────────────────────── */
 document.querySelectorAll(".tabs button").forEach((b) =>
@@ -37,7 +176,7 @@ function storyFor(step, i, all) {
     case "seal_guess": return [`${pv.player} seals a guess`, `${pv.player} secretly suspects ${pv.suspect}.`];
     case "reveal": return ["🕛 Midnight: the holder unmasks", `${pv.holder} proves they hold the pumpkin and returns it to the cauldron.`];
     case "open_guess": return [`${pv.player} opens their guess`, `${pv.player} said ${pv.suspect}.`];
-    case "claim": { const bc = step.public.balance_change ?? 0; return [`${pv.player} claims`, bc >= 0 ? `${pv.player} receives ${tari(bc)} (net of fee).` : `${pv.player} gets nothing back (bond forfeited) and pays ${tari(-bc)} in fees.`]; }
+    case "claim": { const bc = step.public.balance_change ?? 0; return [`${pv.player} claims`, bc >= 0 ? `${pv.player} receives ${money(bc)} (net of fee).` : `${pv.player} gets nothing back (bond forfeited) and pays ${money(-bc)} in fees.`]; }
     default: return [step.label, ""];
   }
 }
@@ -73,11 +212,13 @@ function renderPublic(f) {
   const events = (s.events || []).filter((e) => !e.topic.startsWith("std.component"))
     .map((e) => `<span class="chip ev">${esc(e.topic.replace("CursedPumpkin.CursedPumpkin.", "").replace("std.", ""))}${
       e.payload && Object.keys(e.payload).length ? ` ${esc(Object.entries(e.payload).map(([k, v]) => `${k}=${short(String(v), 8)}`).join(" "))}` : ""}</span>`).join("");
+  const esme = esmeraldaNet();
+  const href = s.tx_id && esme?.explorer ? txUrl(esme.explorer, s.tx_id) : s.link;
   const rows = [
-    ["Tx", `<a href="${esc(s.link)}" target="_blank" rel="noopener">${short(s.tx_id, 12)}</a>`],
+    ["Tx", `<a href="${esc(href)}" target="_blank" rel="noopener">${short(s.tx_id, 12)}</a>`],
     ["Epoch", s.epoch],
     ["Signed by", esc(pub.who || "")],
-    ["Fee", tari(s.fee)],
+    ["Fee", money(s.fee)],
     ["Seen", esc(pub.what || "")],
   ];
   if (pub.spent) rows.push(["Spent", `<code>${short(pub.spent, 12)}</code>`]);
@@ -118,8 +259,9 @@ async function loadRecord() {
   $("#scrub").max = frames.length - 1;
   const t = REC.steps[0]?.time_utc;
   $("#rec-date").textContent = t ? new Date(t).toUTCString().replace(" GMT", " UTC") : "Esmeralda";
-  if (REC.publish_tx) $("#tpl-link").href = EXPLORER + REC.publish_tx;
-  $("#game-id").value = REC.game.component;
+  updateFooter();
+  syncGameId();
+  if (!NET && REC?.game?.component && !$("#game-id").value.trim()) $("#game-id").value = REC.game.component;
   const m = location.hash.match(/step=(\d+)/);
   show(m ? +m[1] - 1 : 0);
   const t2 = location.hash.match(/tab=(\w+)/);
@@ -135,7 +277,7 @@ $("#play").onclick = () => {
   timer = setInterval(() => { if (at >= frames.length - 1) $("#play").click(); else show(at + 1); }, 2200);
 };
 document.addEventListener("keydown", (e) => {
-  if ($("#replay").hidden || e.target.tagName === "INPUT") return;
+  if ($("#replay").hidden || e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
   if (e.key === "ArrowRight") show(at + 1);
   if (e.key === "ArrowLeft") show(at - 1);
 });
@@ -143,7 +285,7 @@ document.addEventListener("keydown", (e) => {
 /* ───────────────────────────── live ───────────────────────────── */
 const hex = (v) => (v && v["@cbor"] === "bytes" ? v.hex : v && v["@cbor"] === "tag" ? hex(v.value) : v);
 async function substate(id) {
-  const r = await fetch(`${INDEXER}/substates/${id}`);
+  const r = await indexerGet(`/substates/${id}`);
   if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
   const body = await r.json();
   const up = body.state && body.state.up;
@@ -176,22 +318,31 @@ function phaseOf(g, epoch) {
 async function loadLive() {
   const id = $("#game-id").value.trim();
   const out = $("#live-cards");
+  if (!id) {
+    out.innerHTML = `<p class="bad">No ${esc(NET?.label || "selected")} game component yet. After you publish and instantiate, paste the <code>component_…</code> address here and into <code>networks.json</code>. This page will not invent one.</p>`;
+    return;
+  }
   out.innerHTML = "<p>Loading…</p>";
   try {
-    const [net, raw] = await Promise.all([fetch(`${INDEXER}/network`).then((r) => r.json()), substate(id)]);
+    const [net, raw] = await Promise.all([indexerGet("/network").then((r) => r.json()), substate(id)]);
+    if (NET && net.network && net.network !== NET.id) {
+      out.innerHTML = `<p class="bad">${esc(NET.label)} is selected, but the indexer reports ${esc(net.network)}. The component was not decoded.</p>`;
+      return;
+    }
     const g = decodeGame(raw);
     window.LIVE = g;
     const [pot, gas] = await Promise.all([vaultBalance(g.pot), vaultBalance(g.gas)]);
     const name = (k) => Object.entries(REC?.players || {}).find(([, p]) => p.player_key === k)?.[0];
-    const live = g.live ? `<a href="${INDEXER}/substates/utxo_${g.pumpkin}_${g.live}" target="_blank" rel="noopener"><code>${short(g.live, 10)}</code></a>` : "—";
+    const unit = NET?.unit || "tTARI";
+    const live = g.live ? `<a href="${ACTIVE_INDEXER}/substates/utxo_${g.pumpkin}_${g.live}" target="_blank" rel="noopener"><code>${short(g.live, 10)}</code></a>` : "—";
     out.innerHTML = [
       ["Game", esc(g.name), `epoch ${net.epoch}`],
       ["Phase", phaseOf(g, net.epoch), `midnight at epoch ${g.midnight}, claims from ${g.revealUntil}`],
       ["Passes", g.passes, `last at epoch ${g.lastPass}`],
       ["Live pumpkin", live, "the only public trace: a commitment and a one-time key"],
       ["Holder", g.holder ? `${short(g.holder, 8)} ${name(g.holder) ? `(${esc(name(g.holder))})` : ""}` : "unknown 🕳️", "set only by the midnight reveal"],
-      ["Pot", pot == null ? "?" : tari(pot), `bond ${tari(g.bond)} each`],
-      ["Gas tank", gas == null ? "?" : tari(gas), `max ${tari(g.maxFee)} per pass`],
+      ["Pot", pot == null ? "?" : money(pot, unit), `bond ${money(g.bond, unit)} each`],
+      ["Gas tank", gas == null ? "?" : money(gas, unit), `max ${money(g.maxFee, unit)} per pass`],
       ["Players", g.players.length, g.players.map((p) => `${short(p.key, 5)}${name(p.key) ? ` ${esc(name(p.key))}` : ""}: ${p.opened ? `said ${short(p.opened, 4)}` : p.sealed ? "sealed 🔒" : "no guess"}${p.claimed ? " · claimed" : ""}`).join("<br>")],
     ].map(([l, b, s]) => `<div class="card"><div class="lbl">${l}</div><div class="big">${b}</div><div class="hint">${s}</div></div>`).join("");
   } catch (e) {
@@ -207,7 +358,7 @@ function provider() {
   return window.tari || (Array.isArray(window.tariProviders) && window.tariProviders.find((p) => p && p.isTariWallet)) || null;
 }
 function noWallet() {
-  $("#w-none").innerHTML = "No Tari wallet found. Install <b>Sapient</b>, switch it to Esmeralda, then reload. You can still watch the replay and the live game without one.";
+  $("#w-none").innerHTML = `No Tari wallet found. Install <b>Sapient</b>, switch it to ${esc(NET?.label || "the selected network")}, then reload. You can still watch the replay and the live game without one.`;
 }
 $("#w-connect").onclick = async () => {
   wallet = provider();
@@ -215,7 +366,8 @@ $("#w-connect").onclick = async () => {
   try {
     const accts = await wallet.request({ method: "tari_requestAccounts" });
     let net = ""; try { net = JSON.stringify(await wallet.request({ method: "tari_getNetwork" })); } catch {}
-    $("#w-acct").innerHTML = `<span class="ok">Connected</span> <code>${esc(short(String(accts?.[0] ?? ""), 14))}</code> <span class="hint">${esc(net)}</span>`;
+    const offNetwork = net && NET && !net.toLowerCase().includes(NET.id) && !(NET.id === "esmeralda" && /esme|otl_esm/.test(net.toLowerCase()));
+    $("#w-acct").innerHTML = `<span class="ok">Connected</span> <code>${esc(short(String(accts?.[0] ?? ""), 14))}</code> <span class="hint">${esc(net)}</span>${offNetwork ? ` <span class="bad">Wallet is not on ${esc(NET.label)}.</span>` : ""}`;
     $("#w-scan").disabled = false;
   } catch (e) {
     $("#w-acct").innerHTML = `<span class="bad">${esc(e.message || e)}</span>`;
@@ -224,6 +376,10 @@ $("#w-connect").onclick = async () => {
 };
 $("#w-scan").onclick = async () => {
   const out = $("#w-scan-out");
+  if (!$("#game-id").value.trim()) {
+    out.innerHTML = `<span class="bad">No game component for ${esc(NET?.label || "this network")} yet.</span>`;
+    return;
+  }
   out.textContent = "Scanning… (this can take a few seconds)";
   try {
     const g = window.LIVE || decodeGame(await substate($("#game-id").value.trim()));
@@ -278,4 +434,18 @@ $("#w-prove").onclick = async () => {
   }
 };
 
-loadRecord();
+$("#network")?.addEventListener("change", (e) => applyNetwork(e.target.value));
+
+async function init() {
+  try {
+    await loadConfig();
+  } catch (e) {
+    $("#net-status").innerHTML = `<span class="bad">Could not load networks.json (${esc(e.message)}). Live view stays offline.</span>`;
+    await loadRecord();
+    return;
+  }
+  fillNetworkSelect();
+  await applyNetwork(initialNetworkId());
+  await loadRecord();
+}
+init();

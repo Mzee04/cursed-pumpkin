@@ -8,6 +8,8 @@ license = "MIT"
 description = "The Cursed Pumpkin: a private hot-potato party game on Tari Ootle"
 
 [dependencies]
+# Ootle 0.51–0.53 keep loading templates built with 0.38. Do not bump to 0.40
+# unless a mainnet release says V2 templates no longer load. See MAINNET_LAUNCH.md.
 tari_template_lib = "0.38"
 
 [lib]
