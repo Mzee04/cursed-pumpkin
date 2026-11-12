@@ -1,6 +1,6 @@
 {
-  "defaultNetwork": "esmeralda",
-  "notes": "Committed default stays Esmeralda so https://mzee04.github.io/cursed-pumpkin/ keeps reading the testnet game. Select mainnet in the page, or open ?network=mainnet, to read the official mainnet game. Do not copy Esmeralda addresses into the mainnet fields. Do not push gh-pages until defaultNetwork is flipped with an explicit OK.",
+  "defaultNetwork": "mainnet",
+  "notes": "Committed default is Ootle mainnet, so https://mzee04.github.io/cursed-pumpkin/ reads the official mainnet game after this reaches main. Select Esmeralda in the page, or open ?network=esmeralda, to read the recorded testnet game. Do not copy Esmeralda addresses into the mainnet fields. Do not push gh-pages by hand; Pages deploys from main.",
   "networks": {
     "esmeralda": {
       "id": "esmeralda",

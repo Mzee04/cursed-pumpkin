@@ -1,5 +1,5 @@
 /* The Cursed Pumpkin: static front end. No build step, no dependencies, no server of our own.
-   Endpoints and addresses come from networks.json. The file's default is Esmeralda. */
+   Endpoints and addresses come from networks.json. The file's default is Ootle mainnet. */
 "use strict";
 
 const STORAGE_KEY = "cursed-pumpkin-network";

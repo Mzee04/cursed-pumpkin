@@ -2,7 +2,7 @@
 
 Operator notes for publishing **The Cursed Pumpkin** on Ootle mainnet for the [First to Launch bonus](https://community.tari.com/t/november-bonus-contest-first-to-launch/521).
 
-The template is published on mainnet, and an official game has been instantiated. The committed app default stays Esmeralda. [`web/networks.json`](web/networks.json) now has the official mainnet `template`, `component`, `pumpkin`, and `publishTx` values. Do not flip `defaultNetwork` or push `gh-pages` until `?network=mainnet` has been checked and that change is explicitly approved.
+The template is published on mainnet, and an official game has been instantiated. The committed app default is now Ootle mainnet. [`web/networks.json`](web/networks.json) has the official mainnet `template`, `component`, `pumpkin`, and `publishTx` values. After this is merged to `main`, the public site follows (Pages deploys `web/` from `main`). Do not push `gh-pages` by hand.
 
 Publishing was signed by the human in their own `tari_ootle_walletd` v0.53.0 wallet. This file records the result. It does not sign, spend, or publish further transactions.
 
@@ -14,7 +14,7 @@ Status of the First to Launch steps:
 - [x] Prove when it was published (transaction id, accepted time, explorer link)
 - [x] Instantiate a mainnet game (`CursedPumpkin::new`) so the app can show a live board
 - [x] Fill `networks.mainnet` in [`web/networks.json`](web/networks.json) (`template`, `component`, `pumpkin`, `publishTx`)
-- [ ] After `?network=mainnet` works, set `defaultNetwork` to `mainnet` and merge (do not push `gh-pages`)
+- [x] Set `defaultNetwork` to `mainnet` (merge to `main` so Pages can deploy; do not push `gh-pages` by hand)
 - [ ] Post a thread update with the game component in the [First to Launch](https://community.tari.com/t/november-bonus-contest-first-to-launch/521) thread (deadline `2026-11-21T11:11:11Z`; an initial post with the template already exists)
 
 | Item | Value |
@@ -69,8 +69,8 @@ Proceed only when a response looks like `{"network":"mainnet", ...}`. At 2026-11
 | Mainnet template | `template_dc7d2ed8f763ce291a0c27b466ed706005279f85831d2d3c9610b4aaabe56b44` |
 | Mainnet publish tx | [`ed9b31ee6e1d88837018c4756d61e98bcb01856564198e0ba4d1e6ad91243600`](https://explorer.tari.mw/tx/ed9b31ee6e1d88837018c4756d61e98bcb01856564198e0ba4d1e6ad91243600), accepted 12 Nov 2026 05:38:14 UTC, epoch 38507 |
 | Official mainnet game | `component_f0a10a09bc05a492d96b221a37ef21adf1ad83ffc8fe0c5b2cb02915988357a2` (create tx [`7ff685e08faad7af4dc3e209c91f2ac710974466fdcc6cc7cecc205b385ab351`](https://explorer.tari.mw/tx/7ff685e08faad7af4dc3e209c91f2ac710974466fdcc6cc7cecc205b385ab351), accepted 12 Nov 2026 06:34:59 UTC) |
-| App config | [`web/networks.json`](web/networks.json). Default network is `esmeralda`. Mainnet `template` / `publishTx` / `component` / `pumpkin` now hold the official game addresses. |
-| Public site | <https://mzee04.github.io/cursed-pumpkin/> deploys from `main` only. It must stay on Esmeralda until a later commit flips `defaultNetwork` to `mainnet` and is merged. Do not push `gh-pages`. |
+| App config | [`web/networks.json`](web/networks.json). Default network is `mainnet`. Mainnet `template` / `publishTx` / `component` / `pumpkin` hold the official game addresses. Open `?network=esmeralda` for the recorded testnet game. |
+| Public site | <https://mzee04.github.io/cursed-pumpkin/> deploys from `main` only ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)). Once this change is on `main`, the site defaults to the official mainnet game. Do not push `gh-pages` by hand. |
 
 ### Why the template was not bumped to 0.53 / `tari_template_lib` 0.40
 
@@ -125,7 +125,7 @@ Do these without submitting an Ootle transaction.
 
 ## At launch, after `GET /network` says mainnet
 
-Steps 1–6 below were completed on 12 November 2026 (see [Published on mainnet](#published-on-mainnet)). Step 7 is still open: point the public site at mainnet only after a check of `?network=mainnet` and an explicit OK. Do not push `gh-pages`.
+Steps 1–7 below were completed on 12 November 2026 (see [Published on mainnet](#published-on-mainnet)). `defaultNetwork` is `mainnet`. After merge to `main`, Pages deploys the public site. Do not push `gh-pages` by hand.
 
 Every step below is signed by the human. `client/esmeralda.py` and `client/pumpkin.py` are pinned to Esmeralda and will submit a transaction if you run `publish`. Do not point them at mainnet. This repo is not a `tari create` workspace, so the wallet UI is the path that matches the publishing guide.
 
@@ -161,9 +161,9 @@ Every step below is signed by the human. `client/esmeralda.py` and `client/pumpk
    - `pumpkin`
    - `publishTx` (the hex transaction id, no URL)
 
-   Done. Those four strings now hold the official addresses. The schema has no create-tx field; that hash is recorded in this file and the README instead. Leave `defaultNetwork` as `esmeralda` until you have checked the live tab against mainnet. Open the app with `?network=mainnet`, or use the Network selector. The selector is stored in this browser only. Visitors who do not choose mainnet stay on the Esmeralda game.
+   Done. Those four strings hold the official addresses. The schema has no create-tx field; that hash is recorded in this file and the README instead. `defaultNetwork` is now `mainnet`. Open the app with `?network=esmeralda`, or use the Network selector, to read the recorded testnet game. The selector is stored in this browser only.
 
-7. Point the public site at mainnet only after that check passes. GitHub Pages deploys the `web/` directory from `main` ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)). In a follow-up commit, set `defaultNetwork` to `mainnet` and merge. Do not force-push `main`. Do not push `gh-pages`. Until that follow-up, <https://mzee04.github.io/cursed-pumpkin/> keeps serving Esmeralda.
+7. Point the public site at mainnet. GitHub Pages deploys the `web/` directory from `main` ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)). This commit sets `defaultNetwork` to `mainnet`. After it is merged (no force-push of `main`, no manual `gh-pages` push), <https://mzee04.github.io/cursed-pumpkin/> serves the official mainnet game.
 
 ## Forum post
 
@@ -173,7 +173,7 @@ Post yourself on [First to Launch](https://community.tari.com/t/november-bonus-c
 - Mainnet template address
 - Publish transaction id, its accepted time, and `https://explorer.tari.mw/tx/<tx_id>`
 - Official game component and create transaction id
-- How to view it: the repository, or the GitHub Pages site with `?network=mainnet` only after that query string would actually load the filled `networks.json`. Do not claim the live site is on mainnet while it still defaults to Esmeralda and `gh-pages` has not been updated.
+- How to view it: <https://mzee04.github.io/cursed-pumpkin/>, which defaults to the official mainnet game once this is on `main`. Do not include an explorer link unless that page has been checked.
 - The game component address, if you instantiated one
 - Eligibility: this project was entered in Spooky Secrets and the Creator Contest
 
@@ -187,7 +187,7 @@ Do not post wallet seeds, account secret keys, or burn proofs.
 
 These were true when the branch was opened. The template publish later cleared the first three for the ranking event.
 
-- ~~No mainnet template address exists.~~ Published: see [Published on mainnet](#published-on-mainnet). ~~The mainnet game component is still missing.~~ Instantiated: official game `component_f0a10a09…8357a2`, recorded in `web/networks.json`. `defaultNetwork` stays `esmeralda` on purpose.
+- ~~No mainnet template address exists.~~ Published: see [Published on mainnet](#published-on-mainnet). ~~The mainnet game component is still missing.~~ Instantiated: official game `component_f0a10a09…8357a2`, recorded in `web/networks.json`. `defaultNetwork` is `mainnet`.
 - Mainnet public indexers were unreachable (HTTP 523) during prep. They answered later; indexer-a was flaky and the wallet failed over to indexer-b.
 - Mainnet TARI was obtained and used to pay the publish fee (4.369422 TARI). Stealth-only funds required a revealed self-send before fee estimation would succeed.
 - Official docs and the wallet setup page still described mainnet as not launched when this was written. walletd v0.53.0 is the binary that was used to publish; the template pin is intentionally older, for the reason above.

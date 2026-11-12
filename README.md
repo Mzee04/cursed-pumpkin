@@ -5,7 +5,7 @@ The chain records every pass but never who gave it or who received it. At midnig
 to prove it on-chain, and everyone who guessed right splits the pot.
 
 Built for the Tari October 2026 build contest, *Spooky Secrets*. All code is new and written for this entry.
-The template and an official game are published on **Ootle mainnet** (see [Ootle mainnet](#ootle-mainnet)). The public site and the recorded game still default to the **Esmeralda testnet**. Open `?network=mainnet` (or the network selector) to read the live mainnet board. Details are in [MAINNET_LAUNCH.md](MAINNET_LAUNCH.md).
+The template and an official game are published on **Ootle mainnet** (see [Ootle mainnet](#ootle-mainnet)). The public site defaults to that mainnet game. The replay tab still shows the recorded **Esmeralda testnet** game. Open `?network=esmeralda` (or the network selector) to read the testnet board. Details are in [MAINNET_LAUNCH.md](MAINNET_LAUNCH.md).
 
 - `templates/cursed_pumpkin`: the Ootle template (Rust → WASM), built with `tari_template_lib` 0.38 for Ootle 0.50.1 (template definition V2). A template built with 0.35 no longer loads.
 - `tests/game.rs`: 13 engine tests that run the real Ootle engine in-process
@@ -55,7 +55,7 @@ The template checks every rule on-chain:
 - **Self-sabotage.** A holder can move the pumpkin with a plain wallet "send privately" that bypasses `pass`. The game then loses track of it, nobody can reveal, and the holder forfeits their bond (everyone gets half back).
 - **Small anonymity set.** With 4 players, guessing is meant to be fun, not impossible. Bigger games give more cover.
 - **Client discipline.** The template cannot see who signs a transaction beyond what it checks, so privacy also depends on the client. An earlier version of this client also signed passes with the passer's ghost key (ootle-py signs with every key registered in the wallet), which would let anyone who knows the ghost addresses follow the hands. That was fixed before the game below was played, and the game recorded here was re-run from scratch with the fixed client; `verify_signers.py` shows no ghost key in any of its transactions.
-- **Unaudited.** The public site and the Python client still default to Esmeralda. The mainnet template and an official mainnet game are published; do not flip `defaultNetwork` or push `gh-pages` until that is explicitly approved. See [MAINNET_LAUNCH.md](MAINNET_LAUNCH.md).
+- **Unaudited.** The public site defaults to the official Ootle mainnet game. The Python client stays pinned to Esmeralda. Do not run it against mainnet. Do not push `gh-pages` by hand. See [MAINNET_LAUNCH.md](MAINNET_LAUNCH.md).
 
 ## Run it
 
@@ -65,8 +65,8 @@ cd web && python3 -m http.server 8000
 # open http://localhost:8000
 ```
 - **Replay** steps through the recorded Esmeralda game, showing *what the public sees* next to *what the players know*.
-- **Live game** reads the game component from the indexer in [`web/networks.json`](web/networks.json). The default is still `https://ootle-indexer-a.tari.com`, with the official `esme-indexer-*` hosts as fallback. The indexer returns substate values as CBOR; `web/bor.js` decodes them with the vendored `@tari-project/ootle-wasm-bor` 0.50.1 blob. The header's network selector (or `?network=mainnet`) switches indexer, explorer, and addresses to the official mainnet game. The committed default stays Esmeralda; do not flip `defaultNetwork` or push `gh-pages` until that is explicitly approved.
-- **Am I haunted?** needs the **Sapient** extension on Esmeralda. It scans your wallet for this game's PUMPKIN and signs an ownership challenge with the pumpkin's one-time key, then checks that the key matches the live UTXO's on-chain `auth.Key`. It spends nothing.
+- **Live game** reads the game component from the indexer in [`web/networks.json`](web/networks.json). The committed default is Ootle mainnet (`https://indexer-a.ootle.tari.com`, then `https://indexer-b.ootle.tari.com`). The indexer returns substate values as CBOR; `web/bor.js` decodes them with the vendored `@tari-project/ootle-wasm-bor` 0.50.1 blob. The header's network selector (or `?network=esmeralda`) switches indexer, explorer, and addresses to the recorded Esmeralda game.
+- **Am I haunted?** needs the **Sapient** extension (or Tari Universe) on the selected network. It scans your wallet for this game's PUMPKIN and signs an ownership challenge with the pumpkin's one-time key, then checks that the key matches the live UTXO's on-chain `auth.Key`. It spends nothing.
 
 ### Template tests
 ```bash
@@ -113,7 +113,7 @@ Template published 12 November 2026, 05:38:14 UTC (06:38 WAT), epoch 38507, from
 - Template fee: 4.369422 TARI (Template publish 3,341,204 units of cost)
 - WASM blob: 269.1 KiB after wallet `wasm-opt`; hash `91e5d59567c55a3b8040e98962431f4075c68391cfd0e8dcdbf1285caf1ca939`
 
-[`web/networks.json`](web/networks.json) now has these mainnet addresses. The committed default and <https://mzee04.github.io/cursed-pumpkin/> stay on Esmeralda. To view the live mainnet board from this branch, serve `web/` and open `?network=mainnet`. Do not push `gh-pages` or change `defaultNetwork` until that is explicitly approved. See [MAINNET_LAUNCH.md](MAINNET_LAUNCH.md).
+[`web/networks.json`](web/networks.json) has these mainnet addresses, and `defaultNetwork` is `mainnet`. After this reaches `main`, <https://mzee04.github.io/cursed-pumpkin/> serves the official mainnet game (Pages deploys `web/` from `main`; do not push `gh-pages` by hand). Open `?network=esmeralda` to read the recorded testnet game. See [MAINNET_LAUNCH.md](MAINNET_LAUNCH.md).
 
 ## The recorded Esmeralda game
 
