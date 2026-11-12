@@ -1,8 +1,36 @@
 # Mainnet launch checklist
 
-Operator notes for publishing **The Cursed Pumpkin** on Ootle mainnet for the [First to Launch bonus](https://community.tari.com/t/november-bonus-contest-first-to-launch/521). The committed app default stays Esmeralda. Mainnet template and component addresses in [`web/networks.json`](web/networks.json) are empty on purpose.
+Operator notes for publishing **The Cursed Pumpkin** on Ootle mainnet for the [First to Launch bonus](https://community.tari.com/t/november-bonus-contest-first-to-launch/521).
 
-**Publishing signs a transaction. A human does that in their own wallet. This preparation did not sign, spend, burn, connect a wallet, or publish on mainnet, Esmeralda, or localnet.**
+The template is now published on mainnet. The committed app default stays Esmeralda. [`web/networks.json`](web/networks.json) still leaves the mainnet `component` and `pumpkin` fields empty because no mainnet game has been instantiated. Do not flip `defaultNetwork` or push `gh-pages` until that is done.
+
+Publishing was signed by the human in their own `tari_ootle_walletd` v0.53.0 wallet. This file records the result. It does not sign, spend, or publish further transactions.
+
+## Published on mainnet
+
+Status of the First to Launch steps:
+
+- [x] Publish the contract on Ootle mainnet
+- [x] Prove when it was published (transaction id, accepted time, explorer link)
+- [ ] Instantiate a mainnet game (`CursedPumpkin::new`) so the app can show a live board
+- [ ] Fill `networks.mainnet` in [`web/networks.json`](web/networks.json) (`template`, `component`, `pumpkin`, `publishTx`)
+- [ ] After `?network=mainnet` works, set `defaultNetwork` to `mainnet` and merge (do not push `gh-pages`)
+- [ ] Post in the [First to Launch](https://community.tari.com/t/november-bonus-contest-first-to-launch/521) thread (deadline `2026-11-21T11:11:11Z`)
+
+| Item | Value |
+|---|---|
+| Network | Ootle mainnet |
+| Template | `template_dc7d2ed8f763ce291a0c27b466ed706005279f85831d2d3c9610b4aaabe56b44` |
+| Publish transaction | [`ed9b31ee6e1d88837018c4756d61e98bcb01856564198e0ba4d1e6ad91243600`](https://explorer.tari.mw/tx/ed9b31ee6e1d88837018c4756d61e98bcb01856564198e0ba4d1e6ad91243600) |
+| Accepted | 12 November 2026, 05:38:14 UTC (06:38 WAT), epoch 38507, Result Accepted |
+| Fee | 4.369422 TARI (Template publish 3,341,204 units of cost) |
+| WASM blob | 269.1 KiB after wallet `wasm-opt`; blob hash `91e5d59567c55a3b8040e98962431f4075c68391cfd0e8dcdbf1285caf1ca939` |
+| Signer public key | `66ff4b83…36dbf22b` |
+| Fee account | `component_9d388ba11e941740d673f1077055d515b7a0f1327c8190be5df652da2012af6a` |
+| Wallet | `tari_ootle_walletd` v0.53.0 web UI |
+| Mainnet game component | not instantiated yet |
+
+The sections below are the original operator checklist, kept for the remaining steps.
 
 ## When the network opens
 
@@ -30,8 +58,11 @@ Proceed only when a response looks like `{"network":"mainnet", ...}`. At 2026-11
 | Esmeralda template | `template_cb295c2957234e85ed7de45c45e5c024b5351ff23a3737ffba464b1673d00343` |
 | Esmeralda game | `component_f0e06041353d946f32994793a7062d485615e929cbefe7ba1eb382be68814ddf` |
 | Esmeralda publish tx | [`27d48b78458d3959c7d56a7f80df6c6e59a1ef4e4e9a66482ae2f98bbb1c94cd`](https://testnet-explorer.tari.mw/tx/27d48b78458d3959c7d56a7f80df6c6e59a1ef4e4e9a66482ae2f98bbb1c94cd) |
-| App config | [`web/networks.json`](web/networks.json). Default network is `esmeralda`. |
-| Public site | <https://mzee04.github.io/cursed-pumpkin/> deploys from `main` only. It must stay on Esmeralda until a later commit fills the mainnet addresses. Do not push `gh-pages`. |
+| Mainnet template | `template_dc7d2ed8f763ce291a0c27b466ed706005279f85831d2d3c9610b4aaabe56b44` |
+| Mainnet publish tx | [`ed9b31ee6e1d88837018c4756d61e98bcb01856564198e0ba4d1e6ad91243600`](https://explorer.tari.mw/tx/ed9b31ee6e1d88837018c4756d61e98bcb01856564198e0ba4d1e6ad91243600), accepted 12 Nov 2026 05:38:14 UTC, epoch 38507 |
+| Mainnet game | not instantiated yet |
+| App config | [`web/networks.json`](web/networks.json). Default network is `esmeralda`. Mainnet `template` / `publishTx` / `component` / `pumpkin` are still empty in the committed file; fill them only after a game exists. |
+| Public site | <https://mzee04.github.io/cursed-pumpkin/> deploys from `main` only. It must stay on Esmeralda until a later commit fills the mainnet addresses and flips `defaultNetwork`. Do not push `gh-pages`. |
 
 ### Why the template was not bumped to 0.53 / `tari_template_lib` 0.40
 
@@ -86,6 +117,8 @@ Do these without submitting an Ootle transaction.
 
 ## At launch, after `GET /network` says mainnet
 
+Steps 1–4 below were completed on 12 November 2026 (see [Published on mainnet](#published-on-mainnet)). Steps 5–7 are still open: instantiate a game, fill `networks.json`, then point the public site at mainnet only after a check of `?network=mainnet`.
+
 Every step below is signed by the human. `client/esmeralda.py` and `client/pumpkin.py` are pinned to Esmeralda and will submit a transaction if you run `publish`. Do not point them at mainnet. This repo is not a `tari create` workspace, so the wallet UI is the path that matches the publishing guide.
 
 1. Start the mainnet daemon if it is not already running. If its saved indexer is still the placeholder that failed, pass one that answered:
@@ -139,12 +172,14 @@ Do not post wallet seeds, account secret keys, or burn proofs.
 
 ## Build check on this branch
 
-`cargo +stable build --release --target wasm32-unknown-unknown --locked` in `templates/cursed_pumpkin` completed with `tari_template_lib` 0.38.0 (rustc 1.99.1). The WASM is 320,488 bytes, under the 1 MiB cap. `target/` is gitignored. The binary was not published.
+`cargo +stable build --release --target wasm32-unknown-unknown --locked` in `templates/cursed_pumpkin` completed with `tari_template_lib` 0.38.0 (rustc 1.99.1). The pre-opt WASM is 320,488 bytes, under the 1 MiB cap. `target/` is gitignored. That binary was later published from the wallet UI; after the wallet's `wasm-opt` the blob was 269.1 KiB.
 
 ## Blockers checked while this branch was prepared
 
-- No mainnet template or component address exists. The fields are empty. Inventing one would make the app lie.
-- Mainnet public indexers were unreachable (HTTP 523) and are still documented as placeholders.
-- Mainnet TARI only exists after a human burn and claim. The claim window may be “at launch” (tari.com) or about a day of L1 confirmations (claim-burn guide). Without a balance, Publish Template cannot pay its fee.
-- Official docs and the wallet setup page still described mainnet as not launched. walletd v0.53.0 is the newest binary those pages named; the template pin is intentionally older, for the reason above.
+These were true when the branch was opened. The template publish later cleared the first three for the ranking event.
+
+- ~~No mainnet template address exists.~~ Published: see [Published on mainnet](#published-on-mainnet). The mainnet game component is still missing, so the committed `networks.json` component and pumpkin fields stay empty on purpose.
+- Mainnet public indexers were unreachable (HTTP 523) during prep. They answered later; indexer-a was flaky and the wallet failed over to indexer-b.
+- Mainnet TARI was obtained and used to pay the publish fee (4.369422 TARI). Stealth-only funds required a revealed self-send before fee estimation would succeed.
+- Official docs and the wallet setup page still described mainnet as not launched when this was written. walletd v0.53.0 is the binary that was used to publish; the template pin is intentionally older, for the reason above.
 - `client/esmeralda.py publish` signs and broadcasts on Esmeralda. It is the wrong tool for this launch.
